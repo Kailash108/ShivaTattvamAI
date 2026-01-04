@@ -120,6 +120,10 @@ async function enforceLanguage(answer, responseLanguage, openai) {
   return await translateText(answer, responseLanguage, openai);
 }
 
+setTimeout(() => {
+  fetch("/health").catch(() => {});
+}, 1000);
+
 app.post("/ask", async (req, res) => {
     const { question, language, mode } = req.body;
     console.log("Request received:", req.body);
@@ -142,13 +146,23 @@ app.post("/ask", async (req, res) => {
         }
       ]
     });
+    if (!res.ok) {
+      throw new Error("Server error: " + res.status);
+    }
+    
     let answer = response.choices[0].message.content.trim();
     answer = await enforceLanguage(answer, language, openai);
     res.json({ answer });
+    
+    if (!data.answer) {
+      throw new Error("Empty AI response");
+    }
   } 
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Something went wrong" });
+    addAI(
+      "⚠️ Unable to get AI response on mobile. Please try again."
+    );
   }
 });
 
