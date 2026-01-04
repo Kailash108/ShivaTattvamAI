@@ -14,6 +14,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/api/topics", (req, res) => {
   res.sendFile(path.join(__dirname, "Data", "Topics.json"));
 });
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -76,11 +79,34 @@ function needsTranslation(text, targetLang) {
 
 async function translateText(text, targetLang, openai) {
   const target = targetLang === "en" ? "English" : "Telugu";
-  const prompt = `
-    RULES - 
-    Translate the following content into ${target}.
-    Content:
-    ${text}`;
+  const prompt =
+    targetLang === "te"
+    ? `
+    You are a native Telugu speker and spiritual teacher.
+
+    TASK:
+    Rewrite the following content in **natural, fluent, spoken Telugu**.
+
+    STRICT RULES:
+    - Do NOT translate word-by-word.
+    - Do NOT use overly Sanskritised or bookish Telugu.
+    - Use simple, everyday Telugu as spoken by educated Telugu speakers.
+    - Maintain spiritual tone, but keep language friendly and clear.
+    - If Sanskrit words appear (e.g., Shiva, Tattva, Moksha), keep them but explain softly in Telugu.
+    - Ensure the result sounds like a human explaining, not a translation.
+
+    CONTENT:
+    ${text}
+    ` : `
+    You are a fluent English writer.
+
+    Rewrite the following content in clear, natural English.
+    Translate the shlokas also.
+   
+
+    CONTENT:
+    ${text}
+`;
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -117,7 +143,8 @@ async function enforceLanguage(answer, responseLanguage, openai) {
     return answer;
   }
   return await translateText(answer, responseLanguage, openai);
-}
+}  
+
 
 app.post("/ask", async (req, res) => {
     const { question, language, mode } = req.body;

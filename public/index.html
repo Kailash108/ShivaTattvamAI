@@ -6,338 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home - ShivaPurānamAI</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg" href="Logo_1.png">
+  
+  <link rel="stylesheet" href="./Styles/Index.css" />
+  <script src="Scripts/Index.js" defer></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Playfair Display", serif;
-      background: linear-gradient(180deg, #1E1A31, #0E0922);
-      color: #efe3c4;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    .hero, .section {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 60px 40px;
-      box-sizing: border-box;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition:
-        opacity 1.2s ease,
-        transform 1.2s ease;
-    }
-    .hero-brand {
-      display: flex;
-      align-items: center;
-    }
-
-    .hero-logo-img {
-      width: 2.8cm;
-      height: 3cm;
-    }
-
-    .scroll-indicator {
-      position: absolute;
-      bottom: 28px;
-      font-size: 28px;
-      color: #e6c067;
-      opacity: 0.8;
-      animation: scrollPulse 2.5s infinite;
-      pointer-events: none;
-    }
-
-    @keyframes scrollPulse {
-      0% {
-        transform: translateY(0);
-        opacity: 0.3;
-      }
-      50% {
-        transform: translateY(10px);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 0.3;
-      }
-    }
-
-    .fade-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-hidden {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-
-    .section {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .hero-title {
-      font-size: 40px;
-      letter-spacing: 3px;
-      color: #e6c067;
-      font-weight: bolder;
-      margin-top: 0.5cm;
-      text-shadow: #e6c067;
-      animation: subtleGlow 2s ease-in-out infinite alternate;
-    }
-    @keyframes subtleGlow {
-      from {
-        text-shadow: 0 0 1px #e6c067;
-      }
-      to {
-        text-shadow: 0 0 10px #e6c067;
-      }
-   } 
-
-
-    .section h2 {
-      font-family: "Coromorant Garamond", serif;
-      font-size: 28px;
-      color: #e6c067;
-      max-width: 900px;
-      line-height: 1.6;
-    }
-
-    .section p, .section ul {
-      max-width: 850px;
-      font-size: 17px;
-      line-height: 1.9;
-      text-align: left;
-    }
-
-    .typewriter {
-      color: #e6c067;
-      font-weight: 600;
-    }
-
-    .typewriter::after {
-      content: "|";
-      margin-left: 4px;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 50%, 100% {
-        opacity: 1;
-      }
-      25%, 75% {
-        opacity: 0;
-      }
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      margin-top: 40px;
-      width: 100%;
-    }
-
-    .feature {
-      background: linear-gradient(180deg, #c49b3a, #e6c067);
-      color: #1E1A31;
-      padding: 30px;
-      border-radius: 16px;
-      text-align: left;
-    }
-
-    .feature h3 {
-      font-family: "Cinzel", serif;
-      color: #1E1A31;
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-
-    .feature p {
-      font-size: 12px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 40px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    .stat {
-      background: linear-gradient(90deg, #c49b3a, #e6c067);
-      color: #1E1A31;
-      padding: 30px;
-      border-radius: 18px;
-      min-width: 220px;
-      text-align: center;
-    }
-
-    .stat-number {
-      font-family: "Cinzel", serif;
-      font-size: 30px;
-      color: #1E1A31;
-      font-weight: bolder;
-    }
-
-    .stat-title {
-      margin-top: 10px;
-      font-family: "Cinzel", serif;
-      font-size: 15px;
-      font-weight: bolder;
-    }
-
-    .stat-desc {
-      margin-top: 10px;
-      font-size: 12px;
-      opacity: 0.85;
-      line-height: 1.6;
-    }
-
-    .sample-dialogue {
-      background: rgba(0, 0, 0, 0.15);
-      padding: 30px;
-      border-radius: 20px;
-    }
-
-    .sample-dialogue .msg {
-      display: flex;
-      flex-direction: column;
-      font-size: 12px;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    .sample-dialogue .msg.user {
-      align-items: flex-end;
-    }
-
-    .sample-dialogue .msg.ai {
-      align-items: flex-start;
-    }
-
-    .sample-dialogue .label {
-      font-size: 12px;
-      font-family: "Cinzel", serif;
-    }
-
-    .sample-dialogue .bubble {
-      padding: 10px;
-      border-radius: 18px;
-      font-size: 10px;
-    }
-
-    .sample-dialogue .user-bubble {
-      background: #29294F;
-      color: #efe3c4;
-    }
-
-    .sample-dialogue .ai-bubble {
-      background: #c49b3a;
-      color: #1E1A31;
-      text-align: left;
-    }
-
-    .book-cta {
-      display: flex;
-      align-items: center;
-      gap: 18px; 
-      padding: 22px 26px;
-      text-decoration: none;
-      background: linear-gradient(45deg, #0E0922, #1E1A31);
-      border-radius: 18px;
-      border-left: 6px solid #c49b3a;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .book-cta:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-    }
-
-    .book-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .book-title {
-      font-family: "Cinzel", serif;
-      font-size: 18px;
-      letter-spacing: 1px;
-      color: #e6c067;
-      text-align: left;
-    }
-
-    .book-subtitle {
-      margin-top: 4px;
-      font-size: 14px;
-      opacity: 0.85;
-      color: #f5f5f5;
-    }
-
-    .cta {
-      margin-top: 40px;
-    }
-
-    .cta a {
-      display: inline-block;
-      padding: 16px 40px;
-      border-radius: 40px;
-      text-decoration: none;
-      font-family: "Cinzel", serif;
-      font-size: 16px;
-      color: #1a1a1a;
-      background: linear-gradient(270deg, #c49b3a, #e6c067);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .footer {
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 14px;
-      opacity: 0.7;
-      padding: 40px;
-    }
-
-    @media (max-width: 768px) {
-      .features {
-        grid-template-columns: 1fr;
-      }
-      .stats {
-        grid-template-columns: 1fr;
-      }
-      .hero-brand {
-        flex-direction: column;
-      }
-      .hero-title {
-        font-size: 30px;
-      }
-    }
-  </style>  
 </head>
 
 <body>
   <div class="hero">
     <div class="hero-brand">
-      <img src="Logo_1.png"
-          alt="ShivaTattvam AI Logo"
-          class="hero-logo-img" />
+      <img src="Logo_1.png" alt="ShivaTattvam AI Logo" class="hero-logo-img" />
 
       <div class="hero-title">ShivaTattvamAI</div>
     </div>
@@ -389,7 +73,8 @@
           <div class="feature-item">
             <h3>Languages Supported</h3>
             <p>
-              Telugu and English are supported. Select the response language and get the response in your choosen language
+              Telugu and English are supported. Select the response language and get the response in your choosen
+              language
             </p>
           </div>
         </div>
@@ -407,7 +92,7 @@
         <div class="feature-item">
           <h3>Export The Dialogue (No Login Required)</h3>
           <p>
-            No signup or login needed. 
+            No signup or login needed.
             Easily export your dialogue as a PDF to read offline or save for future reference.
         </div>
       </div>
@@ -415,222 +100,174 @@
   </div>
 
   <div class="section">
-      <h2>Shiva Purānam</h2>
-      <ul>
-        <li>
-          Shiva Purānam is one of the principal Puranas of Hindu tradition
-          devoted to Lord Shiva.
-        </li>
-        <li>
-          Initially communicated by Lord Shiva himself to Sage Vyasa Maharishi
-        </li>
-      </ul>
+    <h2>Shiva Purānam</h2>
+    <ul>
+      <li>
+        Shiva Purānam is one of the principal Puranas of Hindu tradition
+        devoted to Lord Shiva.
+      </li>
+      <li>
+        Initially communicated by Lord Shiva himself to Sage Vyasa Maharishi
+      </li>
+    </ul>
 
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-number">07</div>
-          <div class="stat-title">Samhitas</div>
-          <div class="stat-desc">
-            The text is divided into seven chapters each addressing different
-            dimensions of Shiva.
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number">24000</div>
-          <div class="stat-title">Verses</div>
-          <div class="stat-desc">
-            Thousands of verses which gives spiritual guidance from birth to
-            death.
-          </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">07</div>
+        <div class="stat-title">Samhitas</div>
+        <div class="stat-desc">
+          The text is divided into seven chapters each addressing different
+          dimensions of Shiva.
         </div>
       </div>
-      
-    </div>
 
-    <div class="section">
-      <h2>Explore Shiva Purānam</h2>
-      <ul style="font-size: 18px;">
-        <li>You can also explore the structure of Shiva Purānam.</li>
-        <li>It consists of seven chapters namely</li>
-        <li>Vidveswara, Rudra, Shata Rudra, Koti Rudra, Umaa, Kailasa and Vayaveeya Samhita.</li></ul><br/>
-      </ul>
-      <div style="align-items: left;">
-        <a href="Structure.html" class="book-cta">  
-          <span class="book-text">
-            <span class="book-title">View Chapters</span>
-            <span class="book-subtitle">Explore and ask now get clear and focused answers</span>
-          </span>
-        </a>
+      <div class="stat">
+        <div class="stat-number">24000</div>
+        <div class="stat-title">Verses</div>
+        <div class="stat-desc">
+          Thousands of verses which gives spiritual guidance from birth to
+          death.
+        </div>
       </div>
     </div>
+
+  </div>
 
   <div class="section">
-      <h2>Sample Dialogue</h2>
-      <div class="sample-dialogue">
-        <div class="msg user">
-          <div class="label">Question</div>
-          <div class="bubble user-bubble">
-            I want to understand Shiva Puranam, how can I do it easily?
-          </div>
+    <h2>Explore Shiva Purānam</h2>
+    <ul style="font-size: 18px;">
+      <li>You can also explore the structure of Shiva Purānam.</li>
+      <li>It consists of seven chapters namely</li>
+      <li>Vidveswara, Rudra, Shata Rudra, Koti Rudra, Umaa, Kailasa and Vayaveeya Samhita.</li>
+    </ul><br />
+    </ul>
+    <div style="align-items: left;">
+      <a href="Structure.html" class="book-cta">
+        <span class="book-text">
+          <span class="book-title">View Chapters</span>
+          <span class="book-subtitle">Explore and ask now get clear and focused answers</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Sample Dialogue</h2>
+    <div class="sample-dialogue">
+      <div class="msg user">
+        <div class="label">Question</div>
+        <div class="bubble user-bubble">
+          I want to understand Shiva Puranam, how can I do it easily?
         </div>
-        <div class="msg ai">
-          <div class="label">Answer</div>
-          <div class="bubble ai-bubble">
-            To understand the Shiva Puranam easily, you can follow these
-            steps: <br /><br />
+      </div>
+      <div class="msg ai">
+        <div class="label">Answer</div>
+        <div class="bubble ai-bubble">
+          To understand the Shiva Puranam easily, you can follow these
+          steps: <br /><br />
 
-            1. **Start with the Overview**: Familiarize yourself with the
-            general introduction of the Shiva Puranam to grasp the fundamental
-            concepts related to Lord Shiva, his attributes, and his
-            significance in the cosmos.<br /><br />
+          1. **Start with the Overview**: Familiarize yourself with the
+          general introduction of the Shiva Puranam to grasp the fundamental
+          concepts related to Lord Shiva, his attributes, and his
+          significance in the cosmos.<br /><br />
 
-            2. **Read the Chapters (Samhitas)**: The Shiva Puranam consists of
-            several chapters, such as - Vidyeshwara Samhita - Rudra Samhita -
-            Shata Rudra Samhita - Koṭi Rudra Samhita - Uma Samhita - Kailasa
-            Samhita - Vayaviyya Samhita. Consider going through these chapters
-            one at a time.<br /><br />
+          2. **Read the Chapters (Samhitas)**: The Shiva Puranam consists of
+          several chapters, such as - Vidyeshwara Samhita - Rudra Samhita -
+          Shata Rudra Samhita - Koṭi Rudra Samhita - Uma Samhita - Kailasa
+          Samhita - Vayaviyya Samhita. Consider going through these chapters
+          one at a time.<br /><br />
 
-            3. **Seek Guidance**: If possible, join a study group or find a
-            teacher knowledgeable in Shiva Puranam who can provide
-            explanations and insights.<br /><br />
+          3. **Seek Guidance**: If possible, join a study group or find a
+          teacher knowledgeable in Shiva Puranam who can provide
+          explanations and insights.<br /><br />
 
-            Consider beginning with topics like the significance of Shiva in
-            various aspects or the concept of devotion to Lord Shiva. Let me
-            know if you have any specific area of interest or suggestion!
-          </div>
+          Consider beginning with topics like the significance of Shiva in
+          various aspects or the concept of devotion to Lord Shiva. Let me
+          know if you have any specific area of interest or suggestion!
         </div>
+      </div>
 
-        <div class="dialogue-divider"></div>
+      <div class="dialogue-divider"></div>
 
-        <div class="msg user">
-          <div class="label">Question</div>
-          <div class="bubble user-bubble">
-            నేను శివపురాణం చదువుదాం అనుకుంటున్నా, ఇది ఎలా సాధ్యం అవుతుంది?
-          </div>
+      <div class="msg user">
+        <div class="label">Question</div>
+        <div class="bubble user-bubble">
+          నేను శివపురాణం చదువుదాం అనుకుంటున్నా, ఇది ఎలా సాధ్యం అవుతుంది?
         </div>
+      </div>
 
-        <div class="msg ai">
-          <div class="label">Answer</div>
-          <div class="bubble ai-bubble">
-            శివపురాణాన్ని చదవడం అనేది చాలా సులభం. మీరు మొదట శివ పూరాణం
-            పుస్తకాన్ని పొందండి లేదా ఆన్‌లైన్‌లోకి వెళ్ళండి, అక్కడ శివపురాణం
-            యొక్క ఫలకాలుగల (సంహితలు) కాపీని పొందవచ్చు. <br /><br />
+      <div class="msg ai">
+        <div class="label">Answer</div>
+        <div class="bubble ai-bubble">
+          శివపురాణాన్ని చదవడం అనేది చాలా సులభం. మీరు మొదట శివ పూరాణం
+          పుస్తకాన్ని పొందండి లేదా ఆన్‌లైన్‌లోకి వెళ్ళండి, అక్కడ శివపురాణం
+          యొక్క ఫలకాలుగల (సంహితలు) కాపీని పొందవచ్చు. <br /><br />
 
-            శివ పూరాణంలో 07 సంహితలు ఉన్నాయి: విద్యేశ్వర సంహిత, రుద్ర సంహిత, శత
-            రుద్ర సంహిత, కోటి రుద్ర సంహిత, ఉమా సంహిత, కైలాస సంహిత మరియు వాయవీయ
-            సంహిత. మీరు మీ ఆసక్తి ప్రకారం ఏదైనా సంహితను ఆధారంగా మూడు లేదా
-            నాలుగు పేజీలుగా చదవడం ప్రారంభించండి. <br /><br />
+          శివ పూరాణంలో 07 సంహితలు ఉన్నాయి: విద్యేశ్వర సంహిత, రుద్ర సంహిత, శత
+          రుద్ర సంహిత, కోటి రుద్ర సంహిత, ఉమా సంహిత, కైలాస సంహిత మరియు వాయవీయ
+          సంహిత. మీరు మీ ఆసక్తి ప్రకారం ఏదైనా సంహితను ఆధారంగా మూడు లేదా
+          నాలుగు పేజీలుగా చదవడం ప్రారంభించండి. <br /><br />
 
-            ఒక అర్థవంతమైన అధ్యయనం కోసం, మీరు పండితులు లేదా శివ భక్తులకు నేరుగా
-            చెప్తే మీకు మరింత ఉపదేశం కావచ్చు. <br /><br />
+          ఒక అర్థవంతమైన అధ్యయనం కోసం, మీరు పండితులు లేదా శివ భక్తులకు నేరుగా
+          చెప్తే మీకు మరింత ఉపదేశం కావచ్చు. <br /><br />
 
-            మీరు మరింత చర్చించాలని కోరుకుంటే ఏ సంహిత గురించి మీకు
-            తెలుసుకోవాలని ఉంది?
-          </div>
+          మీరు మరింత చర్చించాలని కోరుకుంటే ఏ సంహిత గురించి మీకు
+          తెలుసుకోవాలని ఉంది?
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="section">
-      <h2>Sources & Disclaimer</h2>
+  <div class="section">
+    <h2>Sources & Disclaimer</h2>
 
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-number">2</div>
-          <div class="stat-title">Reference Texts</div>
-          <div class="stat-desc">
-            The reference used in this application is
-            <em>Shiva Purānam</em>, based on Telugu source material(s).
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number">600+</div>
-          <div class="stat-title">Pages of Content</div>
-          <div class="stat-desc">
-            The model is provided with around 700 pages of content including
-            verses and descriptive sections.
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number">GPT-4</div>
-          <div class="stat-title">Model Used</div>
-          <div class="stat-desc">
-            An OpenAI GPT-4–series language model is used to process questions
-            and provide responses based on the given material(s)
-          </div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-number">0</div>
-          <div class="stat-title">Verse Alterations</div>
-          <div class="stat-desc">
-            This service does not create, modify verses. It works only with
-            the material(s) supplied.
-          </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">2</div>
+        <div class="stat-title">Reference Texts</div>
+        <div class="stat-desc">
+          The reference used in this application is
+          <em>Shiva Purānam</em>, based on Telugu source material(s).
         </div>
       </div>
-      <div class="cta">
-          <a href="AskAI.html">Ask The AI</a>
+
+      <div class="stat">
+        <div class="stat-number">600+</div>
+        <div class="stat-title">Pages of Content</div>
+        <div class="stat-desc">
+          The model is provided with around 700 pages of content including
+          verses and descriptive sections.
         </div>
       </div>
+
+      <div class="stat">
+        <div class="stat-number">GPT-4</div>
+        <div class="stat-title">Model Used</div>
+        <div class="stat-desc">
+          An OpenAI GPT-4–series language model is used to process questions
+          and provide responses based on the given material(s)
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number">0</div>
+        <div class="stat-title">Verse Alterations</div>
+        <div class="stat-desc">
+          This service does not create, modify verses. It works only with
+          the material(s) supplied.
+        </div>
+      </div>
+    </div>
+    <div class="cta">
+      <a href="AskAI.html">Ask The AI</a>
+    </div>
+  </div>
 
   <div class="footer">
     <p>This application is developed for devotional, study, and understand purposes only.</p>
     <p>It does not replace traditional learning, teachers, or spiritual guidance.</p>
-    <p>श्रद्धा · అధ్యయనం · అవగాహన <br/> Faith · Study · Understanding</p>
+    <p>श्रद्धा · అధ్యయనం · అవగాహన <br /> Faith · Study · Understanding</p>
   </div>
-
-  <script>
-    const words = ["reading", "understanding"];
-    const el = document.getElementById("animated-word");
-
-    let wordIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
-
-    function typeLoop() {
-      const word = words[wordIndex];
-
-      if (!deleting) {
-        el.textContent = word.substring(0, charIndex++);
-        if (charIndex > word.length) {
-          setTimeout(() => deleting = true, 1200);
-        }
-      } else {
-        el.textContent = word.substring(0, charIndex--);
-        if (charIndex === 0) {
-          deleting = false;
-          wordIndex = (wordIndex + 1) % words.length;
-        }
-      }
-      setTimeout(typeLoop, deleting ? 60 : 90);
-    }
-
-    typeLoop();
-    const sections = document.querySelectorAll(".hero, .section");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("fade-visible");
-            entry.target.classList.remove("fade-hidden");
-          } else {
-            entry.target.classList.remove("fade-visible");
-            entry.target.classList.add("fade-hidden");
-          }
-        });
-      },
-      {
-        threshold: 0.30
-      }
-    );
-
-    sections.forEach(section => observer.observe(section));
-  </script>
-
 </body>
 
 </html>
