@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Structure Reference - ShivaPurānamAI</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Serif+Telugu:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Serif Telugu", serif;
+      background: linear-gradient(180deg, #1E1A31, #0E0922);
+      color: #efe3c4;
+      font-size: 12px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 60px 40px;
+      scrollbar-width: none;
+    }
+
+    .samhita-card {
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 18px;
+      cursor: pointer;
+      transition: background 0.4s ease;
+    }
+
+    .samhita-card:hover {
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .samhita-header {
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .samhita-title {
+      font-family: "Cinzel", serif;
+      font-size: 15px;
+    }
+
+    .samhita-toggle {
+      font-size: 15px;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+
+    /* ---------- CONTENT (HIDDEN BY DEFAULT) ---------- */
+    .samhita-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      padding: 0 28px;
+    }
+
+    .samhita-content p {
+      line-height: 1.8;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .samhita-content ul {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+
+    .samhita-content li {
+      margin-bottom: 8px;
+    }
+
+    li {
+      cursor: copy;
+      user-select: none;
+      list-style: square;
+    }
+
+    li:hover {
+      background: #efe3c4;
+      color: #132b45;
+      transition: 0.3s ease-in;
+    }
+
+    /* ---------- ACTIVE STATE ---------- */
+    .samhita-card.active .samhita-content {
+      max-height: max-content;
+      padding-bottom: 24px;
+    }
+
+    .samhita-card.active .samhita-toggle {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <p>Click a sub-topic to copy it to the clipboard. <br />
+      Paste it into the Ask box to get a quick explanation.</p>
+
+    <div class="samhita-card" data-samhita-id="VIDVESWARA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="RUDRA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="SHATA RUDRA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="KOTI RUDRA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="UMAA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="KAILASA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="VAYAVEEYA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+
+    <script>
+      const cards = document.querySelectorAll(".samhita-card");
+
+      cards.forEach((card) => {
+        card.addEventListener("click", () => {
+          cards.forEach((c) => {
+            if (c !== card) c.classList.remove("active");
+          });
+          card.classList.toggle("active");
+        });
+      });
+
+      document.addEventListener("click", function (e) {
+        const li = e.target.closest("li");
+        if (!li) return;
+
+        const text = li.textContent.trim();
+        if (text != ''){
+          navigator.clipboard.writeText("Elaborate on " + text).then(() => {
+          const original = li.textContent;
+          alert("Topic [" + original + "] is copied!");
+
+          setTimeout(() => {
+            li.textContent = original;
+          }, 1000);
+        })};
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("/api/topics")
+          .then(res => res.json())
+          .then(data => {
+            document.querySelectorAll(".samhita-card").forEach(card => {
+              const samhitaId = card.getAttribute("data-samhita-id");
+              const samhitaData = data[samhitaId];
+
+              if (!samhitaData) return;
+
+              const titleEl = card.querySelector(".samhita-title");
+              titleEl.textContent = samhitaData.title;
+
+              const ul = card.querySelector(".samhita-content ul");
+              ul.innerHTML = "";
+
+              samhitaData.topics.forEach(topic => {
+                const li = document.createElement("li");
+                li.textContent = topic;
+                ul.appendChild(li);
+              });
+            });
+
+          })
+          .catch(err => {
+            console.error("Failed to update HTML:", err);
+          });
+      });
+
+
+    </script>
+</body>
+
+</html>

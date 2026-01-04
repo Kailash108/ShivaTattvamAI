@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Structure - ShivaPurānamAI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Serif+Telugu:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg" href="Logo_1.png">
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Noto Serif Telugu", serif;
+        background: linear-gradient(180deg, #1E1A31, #0E0922);
+        color: #efe3c4;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 60px 40px;
+      }
+
+      .hero-title {
+        font-size: 30px;
+        text-shadow: #e6c067;
+        color: #e6c067;
+        animation: subtleGlow 2s ease-in-out infinite alternate;
+      }
+      @keyframes subtleGlow {
+        from {
+          text-shadow: 0 0 1px #e6c067;
+        }
+        to {
+          text-shadow: 0 0 10px #e6c067;
+        }
+      }
+      .hero-brand {
+        display: flex;
+        align-items: center;
+      }
+      .hero-logo-img {
+        width: 1.8cm;
+        height: 2cm;
+      }
+
+      .subtitle {
+        font-family: "Cinzel", serif;
+        text-align: center;
+        max-width: 800px;
+        margin: auto;
+        opacity: 0.85;
+        line-height: 1.8;
+      }
+
+      .samhita-card {
+        margin-top: 30px;
+        background: rgba(0, 0, 0, 0.15);
+        color: #efe3c4;
+        border-radius: 18px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: background 0.4s ease;
+      }
+
+      .samhita-card:hover {
+        background: rgba(0, 0, 0, 0.45);
+      }
+
+      .samhita-header {
+        padding: 24px 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .samhita-title {
+        font-family: "Cinzel", serif;
+        font-size: 22px;
+      }
+
+      .samhita-toggle {
+        font-size: 22px;
+        opacity: 0.7;
+        transition: transform 0.3s ease;
+      }
+
+      .samhita-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+        padding: 0 28px;
+      }
+
+      .samhita-content p {
+        line-height: 1.8;
+        margin-top: 10px;
+        opacity: 0.9;
+      }
+
+      .samhita-content ul {
+        margin-top: 15px;
+        padding-left: 20px;
+      }
+
+      .samhita-content li {
+        margin-bottom: 8px;
+      }
+
+      /* ---------- ACTIVE STATE ---------- */
+      .samhita-card.active .samhita-content {
+        max-height: max-content;
+        padding-bottom: 24px;
+      }
+
+      .samhita-card.active .samhita-toggle {
+        transform: rotate(180deg);
+      }
+
+      /* ---------- FOOTER NOTE ---------- */
+      .note {
+        margin-top: 80px;
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.15);
+        border-left: 4px solid #c49b3a;
+        border-radius: 12px;
+        line-height: 1.8;
+      }
+
+      .actions {
+        margin-top: 40px;
+        text-align: center;
+      }
+
+      .actions a {
+        display: inline-block;
+        padding: 14px 36px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-family: "Cinzel", serif;
+        color: #1a1a1a;
+        background: linear-gradient(90deg, #c49b3a, #e6c067);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="hero-brand">
+        <img src="Logo_1.png"
+            alt="ShivaTattvam AI Logo"
+            class="hero-logo-img" />
+        <div class="hero-title">ShivaTattvamAI</div>
+      </div>
+      <div class="subtitle">
+        <p style="text-decoration: underline; text-transform: uppercase">
+          Structure of Shiva Purānam
+        </p>
+        Click on each Samhita to explore its topics <br />
+        <button onclick="location.href='index.html'" style="background-color: #efe3c4;border: none;height: 0.8cm;cursor: pointer;">Go to Main Page</button>
+      </div>
+
+      <div class="samhita-card" data-samhita-id="VIDVESWARA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="RUDRA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="SHATA RUDRA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="KOTI RUDRA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="UMAA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="KAILASA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+    <div class="samhita-card" data-samhita-id="VAYAVEEYA">
+      <div class="samhita-header">
+        <div class="samhita-title"></div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content"><ul></ul></div>
+    </div>
+
+      <div class="note">
+        <strong>How to use this page:</strong><br />
+        After exploring a Samhita, you can ask questions such as:
+        <ul>
+          <li>What is explained in the Vidyēśvara Samhita?</li>
+          <li>Which Samhita discusses devotion?</li>
+          <li>What is the significance of the Shiva Linga?</li>
+        </ul>
+      </div>
+
+      <div class="actions">
+        <a href="AskAI.html" target="_blank">Ask The AI</a>
+      </div>
+    </div>
+
+    <script>
+      const cards = document.querySelectorAll(".samhita-card");
+
+      cards.forEach((card) => {
+        card.addEventListener("click", () => {
+          cards.forEach((c) => {
+            if (c !== card) c.classList.remove("active");
+          });
+          card.classList.toggle("active");
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("/api/topics")
+          .then(res => res.json())
+          .then(data => {
+            document.querySelectorAll(".samhita-card").forEach(card => {
+              const samhitaId = card.getAttribute("data-samhita-id");
+              const samhitaData = data[samhitaId];
+
+              if (!samhitaData) return;
+
+              const titleEl = card.querySelector(".samhita-title");
+              titleEl.textContent = samhitaData.title;
+
+              const ul = card.querySelector(".samhita-content ul");
+              ul.innerHTML = "";
+
+              samhitaData.topics.forEach(topic => {
+                const li = document.createElement("li");
+                li.textContent = topic;
+                ul.appendChild(li);
+              });
+            });
+
+          })
+          .catch(err => {
+            console.error("Failed to update HTML:", err);
+          });
+      });
+    </script>
+  </body>
+</html>
