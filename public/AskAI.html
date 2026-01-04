@@ -388,7 +388,7 @@
       loader.style.display = "block";
       btn.classList.add("loading");
 
-      const res = await fetch("http://localhost:3000/ask", {
+      const res = await fetch("/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question, language: lang.value, mode: mode.value }),

@@ -20,12 +20,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const rulesText = fs.readFileSync("Data/Rules.txt", "utf8");
-const introText = fs.readFileSync("Data/Introduction.txt", "utf8");
-const chapterText = fs.readFileSync("Data/Chapters/Chapters.txt", "utf8");
-const chapterOneText = fs.readFileSync("Data/Chapters/Chapter1.txt", "utf8");
-const chapterTwoText = fs.readFileSync("Data/Chapters/Chapter2.txt", "utf8");
-
+const rulesText = fs.readFileSync(path.join(__dirname, "Data", "Rules.txt"), "utf8");
+const introText = fs.readFileSync(path.join(__dirname, "Data", "Introduction.txt"), "utf8");
+const chapterText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapters.txt"), "utf8");
+const chapterOneText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter1.txt"), "utf8");
+const chapterTwoText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter2.txt"), "utf8");
 
 const combinedText = `
     === GENERAL INTRODUCTION ===
@@ -42,7 +41,14 @@ const combinedText = `
     === END OF CHAPTER 2 ===
 `
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+const isLocalhost = process.env.NODE_ENV !== "production" && (process.env.HOST === "localhost" || !process.env.RENDER);
+
+if (isLocalhost) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+} else {
+  delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+}
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
@@ -149,5 +155,5 @@ app.post("/ask", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Server running on http://localhost:3000");
+  console.log(`Server running on PORT ${PORT}`);
 });
