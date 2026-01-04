@@ -466,12 +466,6 @@
     }
 
     function addAI(text) {
-      let isSpeaking = false;
-      let currentUtterance = null;
-      
-      window.speechSynthesis.cancel();
-      isSpeaking = false;
-
       const msg = document.createElement("div");
       msg.className = "msg ai";
       msg.innerHTML = `<div class="label">Answer</div>`;
@@ -508,16 +502,19 @@
     }
 
     let isSpeaking = false;
+    let currentUtterance = null;
     function speak(text, language, iconEl) {
       if (!window.speechSynthesis) return;
       
-      if (isSpeaking) {
-        speechSynthesis.cancel();
+      if (isSpeaking && currentUtterance) {
+        try {
+          speechSynthesis.cancel();
+        } catch (e) {}
         isSpeaking = false;
+        currentUtterance = null;
         if (iconEl) iconEl.innerHTML = "🔊";
         return;
       }
-      speechSynthesis.cancel();
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = language === "te" ? "te-IN" : "en-IN";
@@ -525,17 +522,22 @@
 
       utterance.onstart = () => {
         isSpeaking = true;
+        currentUtterance = utterance;
         if (iconEl) iconEl.innerHTML = "⏹️";
       };
+
       utterance.onend = () => {
         isSpeaking = false;
+        currentUtterance = null;
         if (iconEl) iconEl.innerHTML = "🔊";
       };
 
       utterance.onerror = () => {
         isSpeaking = false;
+        currentUtterance = null;
         if (iconEl) iconEl.innerHTML = "🔊";
       };
+
       speechSynthesis.speak(utterance);
     }
 
