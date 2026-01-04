@@ -132,8 +132,8 @@ app.post("/ask", async (req, res) => {
       model: "gpt-4o-mini",
       messages: [
         {
-          role: "system",
-          content: `rulesText.replace("{{LANG}}", language) ${modePrompt}`,
+            role: "system",
+            content: `${rulesText.replace("{{LANG}}", language)}  ${modePrompt}`,
         },
         {
           role: "user",

@@ -42,6 +42,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
     }
 
     .hero-brand {
@@ -265,6 +266,26 @@
       display: flex;
     }
 
+    .read-icon {
+      display: inline-block;
+      margin-top: 6px;
+      margin-left: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0.75;
+      user-select: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .read-icon:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .msg.ai {
+      position: relative;
+    }
+
     @media (max-width: 768px) {
       .structure-panel {
         width: 100%;
@@ -304,7 +325,17 @@
         display: flex;
         margin-top: 5px;
       }
-      
+      .header {
+        flex-direction: column;
+      }
+      .header-2 {
+        width: auto;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+      }
+
     }
   </style>
 </head>
@@ -326,7 +357,7 @@
               class="hero-logo-img" />
           <div class="hero-title">ShivaTattvamAI</div>
         </div>
-        <div>
+        <div class="header-2">
           <button class="theme-btn" onclick="toggleStructure()">
             Topic List
           </button>
@@ -365,6 +396,12 @@
     </div>
   </div>
   <script>
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
     function toggleStructure() {
       const panel = document.getElementById("structurePanel");
       const body = document.body;
@@ -415,6 +452,12 @@
     }
 
     function addAI(text) {
+      let isSpeaking = false;
+      let currentUtterance = null;
+      
+      window.speechSynthesis.cancel();
+      isSpeaking = false;
+
       const msg = document.createElement("div");
       msg.className = "msg ai";
       msg.innerHTML = `<div class="label">Answer</div>`;
@@ -423,11 +466,22 @@
       msg.appendChild(bubble);
       dialogue.appendChild(msg);
 
+      const readIcon = document.createElement("span");
+      readIcon.className = "read-icon";
+      readIcon.innerHTML = "🔊";
+      readIcon.title = "Read aloud";
+      readIcon.onclick = () => {
+        speak(text, lang.value, readIcon);
+      };
+
       if (isVerse(text)) {
         bubble.innerText = text;
       } else {
         animateProse(text, bubble);
       }
+
+      msg.appendChild(readIcon);
+      dialogue.appendChild(msg);
       dialogue.scrollTop = dialogue.scrollHeight;
     }
 
@@ -438,6 +492,39 @@
         /^[0-9]+\./m.test(text)
       );
     }
+
+    let isSpeaking = false;
+    function speak(text, language, iconEl) {
+      if (!window.speechSynthesis) return;
+      
+      if (isSpeaking) {
+        speechSynthesis.cancel();
+        isSpeaking = false;
+        if (iconEl) iconEl.innerHTML = "🔊";
+        return;
+      }
+      speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = language === "te" ? "te-IN" : "en-IN";
+      utterance.rate = language === "te" ? 0.9 : 1;
+
+      utterance.onstart = () => {
+        isSpeaking = true;
+        if (iconEl) iconEl.innerHTML = "⏹️";
+      };
+      utterance.onend = () => {
+        isSpeaking = false;
+        if (iconEl) iconEl.innerHTML = "🔊";
+      };
+
+      utterance.onerror = () => {
+        isSpeaking = false;
+        if (iconEl) iconEl.innerHTML = "🔊";
+      };
+      speechSynthesis.speak(utterance);
+    }
+
 
     function animateProse(text, container) {
       container.innerHTML = "";
