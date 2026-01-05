@@ -1,12 +1,58 @@
 body {
   margin: 0;
   font-family: "Playfair Display", serif;
-  background: linear-gradient(180deg, #1e1a31, #0e0922);
+  background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
   color: #efe3c4;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+#wake-loader {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#wake-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.trishul {
+  width: 70px;
+  height: 70px;
+  border: 3px solid #e6c067;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  margin-bottom: 24px;
+}
+
+#wake-loader h1 {
+  font-size: 2.2rem;
+  color: #e6c067;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+#wake-loader p {
+  color: #cbb98b;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hero,
@@ -29,8 +75,26 @@ html {
 }
 
 .hero-logo-img {
-  width: 2.8cm;
-  height: 3cm;
+  width: 3.8cm;
+  height: 4cm;
+  animation: glowPulse 4s linear infinite;
+}
+@keyframes glowPulse {
+  0% {
+    filter:
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.45))
+      drop-shadow(0 0 20px rgba(230, 192, 103, 0.25));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 20px rgba(230, 192, 103, 0.70))
+      drop-shadow(0 0 40px rgba(230, 192, 103, 0.50));
+  }
+  100% {
+    filter:
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.45))
+      drop-shadow(0 0 20px rgba(230, 192, 103, 0.25));
+  }
 }
 
 .scroll-indicator {
@@ -80,15 +144,6 @@ html {
   font-weight: bolder;
   margin-top: 0.5cm;
   text-shadow: #e6c067;
-  animation: subtleGlow 2s ease-in-out infinite alternate;
-}
-@keyframes subtleGlow {
-  from {
-    text-shadow: 0 0 1px #e6c067;
-  }
-  to {
-    text-shadow: 0 0 10px #e6c067;
-  }
 }
 
 .section h2 {
@@ -290,7 +345,7 @@ html {
   font-family: "Cinzel", serif;
   font-size: 16px;
   color: #1a1a1a;
-  background: linear-gradient(270deg, #c49b3a, #e6c067);
+  background: radial-gradient(circle, #e6c067 0%, #c49b3a 100%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 

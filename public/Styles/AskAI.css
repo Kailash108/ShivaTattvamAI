@@ -1,5 +1,5 @@
 :root {
-  --bg-main: linear-gradient(45deg, #0e0922, #1e1a31);
+  --bg-main: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
   --text-main: #efe3c4;
   --border: #e6c067;
   --accent: #c49b3a;
@@ -9,7 +9,7 @@ body {
   margin: 0;
   background: var(--bg-main);
   color: var(--text-main);
-  font-family: "Noto Serif Telugu", serif;
+  font-family: "Playfair Display", serif;
 }
 
 .container {
@@ -37,21 +37,30 @@ body {
 .hero-logo-img {
   width: 1.8cm;
   height: 2cm;
+  animation: glowPulse 4s linear infinite;
+}
+@keyframes glowPulse {
+  0% {
+    filter:
+      drop-shadow(0 0 5px rgba(230, 192, 103, 0.45))
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.25));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.70))
+      drop-shadow(0 0 15px rgba(230, 192, 103, 0.50));
+  }
+  100% {
+    filter:
+      drop-shadow(0 0 5px rgba(230, 192, 103, 0.45))
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.25));
+  }
 }
 
 .hero-title {
-  font-size: 30px;
+  font-size: 25px;
   text-shadow: #e6c067;
   color: #e6c067;
-  animation: subtleGlow 2s ease-in-out infinite alternate;
-}
-@keyframes subtleGlow {
-  from {
-    text-shadow: 0 0 1px #e6c067;
-  }
-  to {
-    text-shadow: 0 0 10px #e6c067;
-  }
 }
 
 .theme-btn {
@@ -184,7 +193,7 @@ textarea {
   width: 35%;
   min-width: 280px;
   height: 100vh;
-  background: #fff;
+  background: #efe3c4;
   border-right: 1px solid #ccc;
   overflow-y: auto;
 }
@@ -292,7 +301,7 @@ textarea {
     width: 100%;
     padding: 10px;
     border: none;
-    background: #f2f2f2;
+    background: #efe3c4;
     font-size: 16px;
     cursor: pointer;
     z-index: 10;

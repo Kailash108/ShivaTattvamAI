@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: "Noto Serif Telugu", serif;
-  background: linear-gradient(180deg, #1e1a31, #0e0922);
+  background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
   color: #efe3c4;
   font-size: 12px;
 }

@@ -43,3 +43,26 @@ const observer = new IntersectionObserver(
 );
 
 sections.forEach((section) => observer.observe(section));
+
+const loader = document.getElementById("wake-loader");
+
+async function wakeCheck() {
+  try {
+    const res = await fetch("/health", { cache: "no-store" });
+    if (res.ok) {
+      hideLoader();
+    }
+  } catch (err) {
+    console.log("Waking up Render service...");
+  }
+}
+
+function hideLoader() {
+  loader.classList.add("hidden");
+  setTimeout(() => {
+    loader.style.display = "none";
+  }, 700);
+}
+
+wakeCheck();
+setInterval(wakeCheck, 2000);

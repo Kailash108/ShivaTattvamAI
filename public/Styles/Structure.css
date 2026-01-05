@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: "Noto Serif Telugu", serif;
-  background: linear-gradient(180deg, #1e1a31, #0e0922);
+  font-family: "Playfair Display", serif;
+  background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
   color: #efe3c4;
 }
 
@@ -12,18 +12,9 @@ body {
 }
 
 .hero-title {
-  font-size: 30px;
+  font-size: 25px;
   text-shadow: #e6c067;
   color: #e6c067;
-  animation: subtleGlow 2s ease-in-out infinite alternate;
-}
-@keyframes subtleGlow {
-  from {
-    text-shadow: 0 0 1px #e6c067;
-  }
-  to {
-    text-shadow: 0 0 10px #e6c067;
-  }
 }
 .hero-brand {
   display: flex;
@@ -32,6 +23,24 @@ body {
 .hero-logo-img {
   width: 1.8cm;
   height: 2cm;
+  animation: glowPulse 4s linear infinite;
+}
+@keyframes glowPulse {
+  0% {
+    filter:
+      drop-shadow(0 0 5px rgba(230, 192, 103, 0.45))
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.25));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.70))
+      drop-shadow(0 0 15px rgba(230, 192, 103, 0.50));
+  }
+  100% {
+    filter:
+      drop-shadow(0 0 5px rgba(230, 192, 103, 0.45))
+      drop-shadow(0 0 10px rgba(230, 192, 103, 0.25));
+  }
 }
 
 .subtitle {
