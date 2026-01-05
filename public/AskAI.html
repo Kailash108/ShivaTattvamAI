@@ -14,7 +14,7 @@
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  
+
   <link rel="stylesheet" href="./Styles/AskAI.css" />
   <script src="Scripts/AskAI.js" defer></script>
 
@@ -26,7 +26,17 @@
       <button class="close-structure" onclick="toggleStructure()">
         ✖ Close
       </button>
-      <object data="StructureRef.html" type="text/html"></object>
+      <div id="structureContent" class="container2">
+        <h1>Instructions:</h1>
+        <p>- Click a sub-topic to copy it to the clipboard.</p>
+        <p>- Paste the copied sub-topic into the Ask box to get a quick and focused explanation.</p>
+        <h3>For Chapter-Wise Understanding</h3>
+        <p>- Select a topic from a chapter and ask questions related only to that chapter.<br />
+          - Asking about Chapter 2 while Chapter 1 is selected may not give accurate answers.</p>
+        <h3>For General Understanding</h3>
+        <p>- Leave the chapter selection blank if you want to ask questions from any chapter of the Shiva Purānam.</p>
+        <h1>Chapters</h1>
+      </div>
     </div>
 
     <div class="container">
@@ -62,6 +72,10 @@
             <option value="beginner">Sādhaka</option>
             <option value="advanced">Gnāni</option>
           </select>
+        </div>
+        <div class="lang-row">
+          <p>Chapter:</p>
+          <select id="chapters"></select>
         </div>
       </div>
 

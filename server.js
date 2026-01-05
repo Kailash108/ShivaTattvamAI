@@ -14,9 +14,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/api/topics", (req, res) => {
   res.sendFile(path.join(__dirname, "Data", "Topics.json"));
 });
+app.get("/api/chapters", (req, res) => {
+  res.sendFile(path.join(__dirname, "Data", "Chapters.json"));
+});
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -24,6 +28,11 @@ app.use((req, res, next) => {
 });
 
 const rulesText = fs.readFileSync(path.join(__dirname, "Data", "Rules.txt"), "utf8");
+const translateTE = fs.readFileSync(path.join(__dirname, "Data", "TranslateTE.txt"), "utf8");
+const translateEN = fs.readFileSync(path.join(__dirname, "Data", "TranslateEN.txt"), "utf8");
+const modeBeginner = fs.readFileSync(path.join(__dirname, "Data", "ModeBeginner.txt"), "utf8");
+const modeAdvanced = fs.readFileSync(path.join(__dirname, "Data", "ModeAdvanced.txt"), "utf8");
+
 const introText = fs.readFileSync(path.join(__dirname, "Data", "Introduction.txt"), "utf8");
 const chapterText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapters.txt"), "utf8");
 const chapterOneText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter1.txt"), "utf8");
@@ -56,129 +65,71 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-const TELUGU_REGEX = /[\u0C00-\u0C7F]/;
-const ENGLISH_REGEX = /[A-Za-z]/;
 
-function detectLanguageProfile(text) {
-  return {
-    hasTelugu: TELUGU_REGEX.test(text),
-    hasEnglish: ENGLISH_REGEX.test(text),
-  };
-}
-
-function needsTranslation(text, targetLang) {
-  const { hasTelugu, hasEnglish } = detectLanguageProfile(text);
-  if (targetLang === "en") {
-    return hasTelugu;
+function getTextInfo(chapter) {
+  switch (chapter) {
+    case "INTRO":
+      return introText;
+    case "VIDVESWARA":
+      return chapterOneText;
+    case "RUDRA":
+      return chapterTwoText;
+    default: 
+      return combinedText;
   }
-  if (targetLang === "te") {
-    return hasEnglish;
-  }
-  return false;
 }
 
-async function translateText(text, targetLang, openai) {
-  const target = targetLang === "en" ? "English" : "Telugu";
-  const prompt =
-    targetLang === "te"
-    ? `
-    You are a native Telugu speker and spiritual teacher.
-
-    TASK:
-    Rewrite the following content in **natural, fluent, spoken Telugu**.
-
-    STRICT RULES:
-    - Do NOT translate word-by-word.
-    - Do NOT use overly Sanskritised or bookish Telugu.
-    - Use simple, everyday Telugu as spoken by educated Telugu speakers.
-    - Maintain spiritual tone, but keep language friendly and clear.
-    - If Sanskrit words appear (e.g., Shiva, Tattva, Moksha), keep them but explain softly in Telugu.
-    - Ensure the result sounds like a human explaining, not a translation.
-
-    CONTENT:
-    ${text}
-    ` : `
-    You are a fluent English writer.
-
-    Rewrite the following content in clear, natural English.
-    Translate the shlokas also.
-   
-
-    CONTENT:
-    ${text}
-`;
-
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [{ role: "user", content: prompt }],
-    temperature: 0
-  });
-  return response.choices[0].message.content.trim();
+function buildSystemPrompt({ language, mode, chapter }) { 
+  const languageRule = language === "en" ? `${translateEN}` : `${translateTE}`; 
+  const modeRule = mode === "advanced" ? `${modeAdvanced}` : `${modeBeginner}`; 
+  return `${rulesText} ${languageRule} ${modeRule}`; 
 }
-
-function buildModePrompt(mode) {
-  if (mode === "advanced") {
-    return `
-      MODE: ADVANCED
-      INSTRUCTIONS:
-      - Explain with philosophical depth.
-      - Use appropriate Sanskrit terms (explain briefly if needed).
-      - Focus on tattva, symbolism, and deeper meaning.
-      `;
-        }
-
-  return `
-      MODE: BEGINNER
-      INSTRUCTIONS:
-      - Explain in simple, clear language.
-      - Avoid heavy Sanskrit unless necessary (explain when used).
-      - Use stories, analogies, or examples where helpful.
-      - Focus on clarity and gradual understanding.
-      - Do not overwhelm the reader.
-      `;
-}
-
-async function enforceLanguage(answer, responseLanguage, openai) {
-  if (!needsTranslation(answer, responseLanguage)) {
-    return answer;
-  }
-  return await translateText(answer, responseLanguage, openai);
-}  
 
 
 app.post("/ask", async (req, res) => {
-    const { question, language, mode } = req.body;
-    console.log("Request received:", req.body);
   try {
-    const question = req.body.question;
-    const selectedMode = mode === 'beginner' ? 'beginner' : 'advanced';
-    const modePrompt = buildModePrompt(selectedMode);
+    console.log(req.body)
+    const { question, language = "te", mode = "beginner", chapter } = req.body;
 
+    if (!question) {
+      return res.status(400).json({ error: "Question is required" });
+    }
+
+    let refText;
+    refText = getTextInfo(chapter)
+
+    const systemPrompt = buildSystemPrompt(language, mode);
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
+      temperature: mode === "advanced" ? 0.1 : 0.3,
       messages: [
         {
-            role: "system",
-            content: `${rulesText.replace("{{LANG}}", language)}  ${modePrompt}`,
+          role: "system",
+          content: systemPrompt,
         },
         {
           role: "user",
-          content: `TEXT: ${combinedText} 
-          QUESTION: ${question}`
-        }
-      ]
+          content: `
+            ${refText}
+            QUESTION:
+            ${question}
+            `,
+        },
+      ],
     });
-    let answer = response.choices[0].message.content.trim();
-    answer = await enforceLanguage(answer, language, openai);
+
+    const answer = response.choices[0].message.content.trim();
     res.json({ answer });
-  } 
-  catch (err) {
+
+  } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({
+      error: "Unable to get AI response",
+    });
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5173;
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);

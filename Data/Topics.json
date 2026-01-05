@@ -1,11 +1,18 @@
 {
+  "INTRO": {
+    "title": "Introduction",
+    "topics": [
+      "What is meant by Purānam?",
+      "Explaining the special sweetness of devotion to Shiva"
+    ]
+  },
   "VIDVESWARA": {
-    "title": "Vidveswara Samhita",
+    "title": "1. Vidveswara Samhita",
     "topics": [
       "The sages question Suta, the narrator Romaharshana",
       "Suta's answers to the sages' questions",
       "Introduction to the Shiva Purānam",
-      "The Samhitas and number of verses in the Shiva Mahapurana",
+      "The Samhitas and number of verses in the Shiva MahaPurānam",
       "Discussion of means and ends, listening, contemplation, and chanting",
       "The glory of listening, contemplation, and chanting",
       "Lingam – Murti (Idol)",
@@ -28,7 +35,7 @@
   },
 
   "RUDRA": {
-    "title": "Rudra Samhita",
+    "title": "2. Rudra Samhita",
     "topics": [
       "Narada's penance (SRISTI KHANDAM)",
       "Narada's delusion",
@@ -179,7 +186,7 @@
   },
 
   "SHATA RUDRA": {
-    "title": "Shata Rudra Samhita",
+    "title": "3. Shata Rudra Samhita",
     "topics": [
       "The five-faced incarnations of Shiva",
       "Parameshwara as the Ashta-Murti (eightfold form)",
@@ -201,7 +208,7 @@
   },
 
   "KOTI RUDRA": {
-    "title": "Koti Rudra Samhita",
+    "title": "4. Koti Rudra Samhita",
     "topics": [
       "The Twelve Jyotirlingas",
       "The greatness of Atrishvara",
@@ -228,14 +235,14 @@
   },
 
   "UMAA": {
-    "title": "Umaa Samhita",
+    "title": "5. Umaa Samhita",
     "topics": [
       "The dialogue between Sri Krishna and Upamanyu",
       "Sri Krishna obtaining boons through penance",
       "Meritorious and sinful actions",
       "The greatness of Annadana",
       "The greatness of penance",
-      "The greatness of the Puranas",
+      "The greatness of the Purānams",
       "Dana and Dharma",
       "Explanation of Purusharthas",
       "The birth of the individual soul (Jiva)",
@@ -251,7 +258,7 @@
   },
 
   "KAILASA": {
-    "title": "Kailasa Samhita",
+    "title": "6. Kailasa Samhita",
     "topics": [
       "The form and essence of Omkara",
       "Initiation into Sannyasa",
@@ -265,7 +272,7 @@
   },
 
   "VAYAVEEYA": {
-    "title": "Vayaveeya Samhita",
+    "title": "7. Vayaveeya Samhita",
     "topics": [
       "Knowledge as the supreme form",
       "The narrative of Naimisharanya",
@@ -276,7 +283,7 @@
       "The Varaha incarnation",
       "Instruction in Shiva Tattva",
       "The glory of Gauri and Shankara",
-      "Phalashruti of Shiva Mahapurana",
+      "Phalashruti of Shiva MahaPurānam",
       "Gadya section"
     ]
   }

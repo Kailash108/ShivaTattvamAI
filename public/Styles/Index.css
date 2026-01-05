@@ -9,52 +9,6 @@ html {
   scroll-behavior: smooth;
 }
 
-#wake-loader {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-
-#wake-loader.hidden {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.trishul {
-  width: 70px;
-  height: 70px;
-  border: 3px solid #e6c067;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
-  margin-bottom: 24px;
-}
-
-#wake-loader h1 {
-  font-size: 2.2rem;
-  color: #e6c067;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-
-#wake-loader p {
-  color: #cbb98b;
-  font-size: 0.95rem;
-  opacity: 0.9;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .hero,
 .section {
   min-height: 100vh;

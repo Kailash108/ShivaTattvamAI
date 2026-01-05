@@ -1,0 +1,8 @@
+MODE: BEGINNER
+      
+INSTRUCTIONS:
+- Explain in simple, clear language.
+- Avoid heavy Sanskrit unless necessary (explain when used).
+- Use stories, analogies, or examples where helpful.
+- Focus on clarity and gradual understanding.
+- Do not overwhelm the reader.
