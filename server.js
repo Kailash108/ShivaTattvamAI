@@ -79,8 +79,8 @@ function getTextInfo(chapter) {
   }
 }
 
-function buildSystemPrompt({ language, mode, chapter }) { 
-  const languageRule = language === "en" ? `${translateEN}` : `${translateTE}`; 
+function buildSystemPrompt({ language, mode }) { 
+  const languageRule = language === "te" ? `${translateTE}` : `${translateEN}`; 
   const modeRule = mode === "advanced" ? `${modeAdvanced}` : `${modeBeginner}`; 
   return `${rulesText} ${languageRule} ${modeRule}`; 
 }
@@ -88,8 +88,8 @@ function buildSystemPrompt({ language, mode, chapter }) {
 
 app.post("/ask", async (req, res) => {
   try {
+    const { question, language, mode, chapter } = req.body;
     console.log(req.body)
-    const { question, language = "te", mode = "beginner", chapter } = req.body;
 
     if (!question) {
       return res.status(400).json({ error: "Question is required" });
@@ -97,8 +97,8 @@ app.post("/ask", async (req, res) => {
 
     let refText;
     refText = getTextInfo(chapter)
+    const systemPrompt = buildSystemPrompt({ language, mode });;
 
-    const systemPrompt = buildSystemPrompt(language, mode);
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: mode === "advanced" ? 0.1 : 0.3,
