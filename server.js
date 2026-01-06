@@ -5,15 +5,10 @@ import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { inject } from "@vercel/analytics"
-inject()
-import { injectSpeedInsights } from '@vercel/speed-insights';
-injectSpeedInsights();
 
 import { MongoClient } from "mongodb";
 const MONGO_URI = process.env.MONGO_URI;
 let db;
-
 const client = new MongoClient(MONGO_URI);
 await client.connect();
 db = client.db(); 
