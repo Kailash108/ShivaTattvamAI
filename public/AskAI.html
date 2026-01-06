@@ -15,6 +15,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+
   <link rel="stylesheet" href="./Styles/AskAI.css" />
   <script src="Scripts/AskAI.js" defer></script>
 
@@ -80,7 +83,6 @@
       </div>
 
       <div id="dialogue" class="dialogue"></div>
-      <audio id="ttsPlayer" preload="auto"></audio>
       <div class="input-wrapper">
         <textarea id="q" placeholder="మీ ప్రశ్నను టైప్ చేయండి / Type your question"></textarea>
         <button class="ask-btn" id="loader" onclick="ask()">Ask</button>

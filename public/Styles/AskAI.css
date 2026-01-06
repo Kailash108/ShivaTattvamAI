@@ -127,7 +127,6 @@ body {
   color: #1e1a31;
 }
 
-textarea,
 select {
   width: 100%;
   padding: 12px;
@@ -139,7 +138,7 @@ select {
 
 textarea {
   width: 97%;
-  padding: 12px;
+  padding: 12px 60px 12px 12px;
   background: var(--input-bg);
   color: var(--text-main);
   border: 1px solid var(--border);

@@ -1,3 +1,6 @@
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+
 const cards = document.querySelectorAll(".samhita-card");
 
 cards.forEach((card) => {
