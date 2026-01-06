@@ -31,28 +31,19 @@ async function ask() {
   const chapter = document.getElementById("chapters").value;
 
   try {
-    console.group("🧠 ASK REQUEST");
-
     const payload = {
       question,
       language: lang.value,
       mode: mode.value,
       chapter
     };
-
-    console.log("📤 Request payload:", payload);
-
     const res = await fetch("/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
-    console.log("📥 Response status:", res.status, res.statusText);
-    console.log("📥 Response headers:", [...res.headers.entries()]);
-
     const rawText = await res.text();
-    console.log("📦 Raw response text:", rawText);
 
     if (!res.ok) {
       throw new Error(`Server error ${res.status}: ${rawText}`);
@@ -62,11 +53,10 @@ async function ask() {
     try {
       data = JSON.parse(rawText);
     } catch (jsonErr) {
-      console.error("❌ JSON parse failed:", jsonErr);
+      console.error("JSON parse failed:", jsonErr);
       throw new Error("Invalid JSON from server");
     }
 
-    console.log("✅ Parsed response JSON:", data);
 
     if (!data.answer) {
       throw new Error("Empty AI response");
@@ -77,12 +67,12 @@ async function ask() {
 
     console.groupEnd();
   } catch (err) {
-    console.group("❌ ASK ERROR");
+    console.group("ASK ERROR");
     console.error(err);
     console.groupEnd();
 
     btn.classList.remove("loading");
-    addAI("⚠️ Unable to get AI response. Please try again.");
+    addAI("Unable to get AI response. Please try again.");
   }
 }
 q.addEventListener("keydown", (e) => {

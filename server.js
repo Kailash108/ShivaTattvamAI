@@ -5,6 +5,19 @@ import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { inject } from "@vercel/analytics"
+inject()
+import { injectSpeedInsights } from '@vercel/speed-insights';
+injectSpeedInsights();
+
+import { MongoClient } from "mongodb";
+const MONGO_URI = process.env.MONGO_URI;
+let db;
+
+const client = new MongoClient(MONGO_URI);
+await client.connect();
+db = client.db(); 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename)
 
@@ -54,7 +67,6 @@ const combinedText = `
 `
 
 const isLocalhost = process.env.NODE_ENV !== "production" && (process.env.HOST === "localhost" || !process.env.RENDER);
-
 if (isLocalhost) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 } else {
@@ -64,7 +76,6 @@ if (isLocalhost) {
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
-
 
 function getTextInfo(chapter) {
   switch (chapter) {
@@ -84,7 +95,6 @@ function buildSystemPrompt({ language, mode }) {
   const modeRule = mode === "advanced" ? `${modeAdvanced}` : `${modeBeginner}`; 
   return `${rulesText} ${languageRule} ${modeRule}`; 
 }
-
 
 app.post("/ask", async (req, res) => {
   try {
@@ -119,6 +129,25 @@ app.post("/ask", async (req, res) => {
     });
 
     const answer = response.choices[0].message.content.trim();
+    
+    const sessionLogs = {
+        event: "LLM_USAGE",
+        model: response.model,
+        promptTokens: response.usage?.prompt_tokens,
+        completionTokens: response.usage?.completion_tokens,
+        totalTokens: response.usage?.total_tokens,
+        systemPromptLength: systemPrompt.length,
+        userQuestionLength: question.length,
+        referenceTextLength: refText?.length,
+        chapter,
+        mode,
+        language,
+        question,
+        answer,
+        timestamp: new Date().toLocaleString("en-GB", { hour12: true })
+    };
+
+    await db.collection(process.env.COLLECTION).insertOne(sessionLogs);
     res.json({ answer });
 
   } catch (err) {
@@ -130,7 +159,6 @@ app.post("/ask", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5173;
-
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
 });
