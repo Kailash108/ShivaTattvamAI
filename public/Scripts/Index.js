@@ -1,7 +1,5 @@
-import { inject } from "@vercel/analytics"
-inject()
-import { injectSpeedInsights } from '@vercel/speed-insights';
-injectSpeedInsights();
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+ window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 
 const words = ["reading", "understanding"];
 const el = document.getElementById("animated-word");
