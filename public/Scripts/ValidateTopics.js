@@ -1,7 +1,19 @@
 import fs from "fs";
+import path from "path";
 
-const topics = JSON.parse(fs.readFileSync("./Data/Topics.json", "utf-8"));
-const content = fs.readFileSync("./Data/Chapters/Chapter1.txt", "utf-8");
+const ROOT = process.cwd();
+
+const topics = JSON.parse(
+  fs.readFileSync(
+    path.join(ROOT, "Data", "Topics.json"),
+    "utf-8"
+  )
+);
+
+const content = fs.readFileSync(
+  path.join(ROOT, "Data", "Chapters", "Chapter1.txt"),
+  "utf-8"
+);
 
 function normalize(s) {
   return s

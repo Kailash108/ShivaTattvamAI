@@ -1,5 +1,6 @@
 import "dotenv/config";
 import fs from "fs";
+import path from "path";
 import OpenAI from "openai";
 
 const client = new OpenAI({
@@ -13,7 +14,14 @@ if (isLocalhost) {
   delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
 }
 
-const data = JSON.parse(fs.readFileSync("./Data/Topics.json", "utf-8"));
+const ROOT = process.cwd();
+
+const topics = JSON.parse(
+  fs.readFileSync(
+    path.join(ROOT, "Data", "Topics.json"),
+    "utf-8"
+  )
+);
 
 async function run() {
   const index = [];
