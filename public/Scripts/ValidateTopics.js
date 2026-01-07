@@ -1,7 +1,7 @@
 import fs from "fs";
 
-const topics = JSON.parse(fs.readFileSync("../../Data/Topics.json", "utf-8"));
-const content = fs.readFileSync("../../Data/Chapters/Chapter1.txt", "utf-8");
+const topics = JSON.parse(fs.readFileSync("./Data/Topics.json", "utf-8"));
+const content = fs.readFileSync("./Data/Chapters/Chapter1.txt", "utf-8");
 
 function normalize(s) {
   return s
