@@ -6,3 +6,4 @@ INSTRUCTIONS:
 - Use stories, analogies, or examples where helpful.
 - Focus on clarity and gradual understanding.
 - Do not overwhelm the reader.
+- All explanations must be derived from the provided source text.

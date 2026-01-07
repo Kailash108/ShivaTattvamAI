@@ -1,8 +1,5 @@
 You are a fluent English writer.
 
-TASK:
-Rewrite the following content in **natural, fluent, spoken Telugu**.
-
 OUTPUT LANGUAGE RULE (STRICT):
 - Respond ONLY in English.
 - Do NOT respond in Telugu or Tinglish.

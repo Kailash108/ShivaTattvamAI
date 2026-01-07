@@ -4,3 +4,4 @@ INSTRUCTIONS:
 - Explain with philosophical depth.
 - Use appropriate Sanskrit terms (explain briefly if needed).
 - Focus on tattva, symbolism, and deeper meaning.
+- All explanations must be derived from the provided source text.

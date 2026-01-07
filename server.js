@@ -22,9 +22,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/api/topics", (req, res) => {
   res.sendFile(path.join(__dirname, "Data", "Topics.json"));
 });
-app.get("/api/chapters", (req, res) => {
-  res.sendFile(path.join(__dirname, "Data", "Chapters.json"));
-});
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
@@ -34,6 +31,8 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
+const topicIndex = JSON.parse(fs.readFileSync("TopicIndex.json", "utf-8"));
 
 const rulesText = fs.readFileSync(path.join(__dirname, "Data", "Rules.txt"), "utf8");
 const translateTE = fs.readFileSync(path.join(__dirname, "Data", "TranslateTE.txt"), "utf8");
@@ -46,20 +45,20 @@ const chapterText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Ch
 const chapterOneText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter1.txt"), "utf8");
 const chapterTwoText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter2.txt"), "utf8");
 
-const combinedText = `
-    === GENERAL INTRODUCTION ===
-    ${introText} 
-    === END OF GENERAL INTRODUCTION ===
-    === CHAPTER & SUB TOPIC CONTENT ===
-    ${chapterText}
-    === END OF CHAPTER & SUB TOPIC CONTENT ===
-    === CHAPTER 1 ===
-    ${chapterOneText}
-    === END OF CHAPTER 1 ===
-    === CHAPTER 2 ===
-    ${chapterTwoText}
-    === END OF CHAPTER 2 ===
-`
+  const combinedText = `
+      === GENERAL INTRODUCTION ===
+      ${introText} 
+      === END OF GENERAL INTRODUCTION ===
+      === CHAPTER & SUB TOPIC CONTENT ===
+      ${chapterText}
+      === END OF CHAPTER & SUB TOPIC CONTENT ===
+      === CHAPTER 1 ===
+      ${chapterOneText}
+      === END OF CHAPTER 1 ===
+      === CHAPTER 2 ===
+      ${chapterTwoText}
+      === END OF CHAPTER 2 ===
+  `
 
 const isLocalhost = process.env.NODE_ENV !== "production" && (process.env.HOST === "localhost" || !process.env.RENDER);
 if (isLocalhost) {
@@ -88,38 +87,106 @@ function getTextInfo(chapter) {
 function buildSystemPrompt({ language, mode }) { 
   const languageRule = language === "te" ? `${translateTE}` : `${translateEN}`; 
   const modeRule = mode === "advanced" ? `${modeAdvanced}` : `${modeBeginner}`; 
-  return `${rulesText} ${languageRule} ${modeRule}`; 
+  return `
+  ${rulesText} 
+  --- OUTPUT LANGUAGE RULES ---
+  ${languageRule} 
+  --- EXPLANATION MODE ---
+  ${modeRule}`; 
+}
+
+function similarity(a, b) {
+  let dot = 0, na = 0, nb = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    na += a[i] * a[i];
+    nb += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
+async function findTopic(question) {
+  const res = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    input: question
+  });
+
+  const qVec = res.data[0].embedding;
+
+  let best = null;
+  let bestScore = 0;
+
+  for (const t of topicIndex) {
+    const score = similarity(qVec, t.embedding);
+    if (score > bestScore) {
+      bestScore = score;
+      best = t;
+    }
+  }
+  return bestScore > 0.25 ? best : null;
+}
+
+function normalize(s) {
+  return s
+    .normalize("NFKC")
+    .replace(/\u00A0/g, " ")
+    .replace(/[0-9\-–—.:;?]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractContent(topicTe, text) {
+  if (!text) return null;
+  const lines = text.split(/\r?\n/);
+  const target = normalize(topicTe);
+  let collecting = false;
+  const buffer = [];
+  for (const line of lines) {
+    const clean = normalize(line);
+    if (!collecting && clean.startsWith("##") && clean.includes(target)) {
+      collecting = true;
+      continue;
+    }
+    if (collecting && clean.startsWith("##")) {
+      break;
+    }
+    if (collecting) buffer.push(line);
+  }
+  return buffer.length ? buffer.join("\n").trim() : null;
 }
 
 app.post("/ask", async (req, res) => {
   try {
-    const { question, language, mode, chapter } = req.body;
-    console.log(req.body)
+    const { question, language, mode } = req.body;
 
     if (!question) {
       return res.status(400).json({ error: "Question is required" });
     }
 
-    let refText;
-    refText = getTextInfo(chapter)
-    const systemPrompt = buildSystemPrompt({ language, mode });;
+    let topic, chText, sourceText, chapter;
+
+    topic = await findTopic(question);
+    if(topic !== null){
+      chText = getTextInfo(topic.section)
+      chapter = topic.section || "";
+      sourceText = extractContent(topic.topic_te, chText);
+    }
+
+    const systemPrompt = buildSystemPrompt({ language, mode });
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      temperature: mode === "advanced" ? 0.1 : 0.3,
+      temperature: 0.4,
       messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
+        { role: "system", content: systemPrompt },
         {
           role: "user",
-          content: `
-            ${refText}
-            QUESTION:
-            ${question}
-            `,
-        },
+          content:
+            `SOURCE TEXT (Authoritative):\n` +
+            `${sourceText}\n\n` +
+            `NOTE: If the source text contains shlokas, include them and explain their meaning.` +
+            `QUESTION:\n${question}`
+        }
       ],
     });
 
@@ -133,7 +200,7 @@ app.post("/ask", async (req, res) => {
         totalTokens: response.usage?.total_tokens,
         systemPromptLength: systemPrompt.length,
         userQuestionLength: question.length,
-        referenceTextLength: refText?.length,
+        referenceTextLength: sourceText?.length,
         chapter,
         mode,
         language,

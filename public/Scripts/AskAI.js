@@ -31,14 +31,12 @@ async function ask() {
   loader.style.display = "block";
   btn.classList.add("loading");
 
-  const chapter = document.getElementById("chapters").value;
-
   try {
     const payload = {
       question,
       language: lang.value,
       mode: mode.value,
-      chapter
+
     };
     const res = await fetch("/ask", {
       method: "POST",
@@ -124,28 +122,6 @@ function addAI(text) {
   dialogue.scrollTop = dialogue.scrollHeight;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("/api/chapters")
-    .then((res) => res.json())
-    .then((data) => {
-      const select = document.getElementById("chapters");
-      if (!select) return;
-
-      select.innerHTML = "";
-
-      Object.entries(data).forEach(([id, chapter]) => {
-        const option = document.createElement("option");
-        option.value = chapter.id;
-        option.textContent = chapter.title;
-        select.appendChild(option);
-      });
-      
-    })
-    .catch((err) => {
-      console.error("Failed to update chapters dropdown:", err);
-    });
-});
-
 let topicsData = {};
 const structureContent = document.getElementById("structureContent");
 
@@ -153,36 +129,20 @@ fetch("api/topics")
   .then(res => res.json())
   .then(data => {
     topicsData = data;
-    renderByChapter("INTRO");
+    renderAllSamhitas();
   });
 
-document.getElementById("chapters")
-  .addEventListener("change", e => {
-    renderByChapter(e.target.value);
-  });
-
-
-function renderByChapter(selectedChapter) {
+function renderAllSamhitas() {
   structureContent
     .querySelectorAll(".samhita-card")
     .forEach(el => el.remove());
 
-  const keys = selectedChapter
-    ? [selectedChapter]
-    : Object.keys(topicsData);
-
-  keys.forEach((key, index) => {
+  Object.keys(topicsData).forEach(key => {
     const data = topicsData[key];
     if (!data) return;
 
     const card = createSamhitaCard(key, data);
     structureContent.appendChild(card);
-    if (selectedChapter && index === 0) {
-      requestAnimationFrame(() => {
-        
-        card.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    }
   });
 }
 
@@ -312,7 +272,7 @@ function exportPDF() {
   const temp = document.createElement("div");
   temp.style.fontFamily = '"Cormorant Garamond", serif';
   temp.style.fontSize = "14px";
-  temp.style.lineHeight = "1.5";
+  temp.style.lineHeight = "1.0";
   temp.style.color = "#000";
   temp.style.background = "#fff";
 
