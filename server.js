@@ -32,7 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const topicIndex = JSON.parse(fs.readFileSync("TopicIndex.json", "utf-8"));
+const topicIndex = JSON.parse(fs.readFileSync(path.join(process.cwd(), "TopicIndex.json"),"utf-8"));
 
 const rulesText = fs.readFileSync(path.join(__dirname, "Data", "Rules.txt"), "utf8");
 const translateTE = fs.readFileSync(path.join(__dirname, "Data", "TranslateTE.txt"), "utf8");
