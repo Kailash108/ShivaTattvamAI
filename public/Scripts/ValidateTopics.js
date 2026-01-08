@@ -1,19 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-const ROOT = process.cwd();
-
-const topics = JSON.parse(
-  fs.readFileSync(
-    path.join(ROOT, "Data", "Topics.json"),
-    "utf-8"
-  )
-);
-
-const content = fs.readFileSync(
-  path.join(ROOT, "Data", "Chapters", "Chapter1.txt"),
-  "utf-8"
-);
+const topics = JSON.parse(fs.readFileSync(path.join(process.cwd(), "Data", "Topics.json"),"utf-8"));
+const content = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter1.txt"),"utf-8");
 
 function normalize(s) {
   return s
@@ -27,8 +16,9 @@ function normalize(s) {
 // extract all headings from content.txt
 const headings = content
   .split(/\r?\n/)
-  .filter(l => l.trim().startsWith("##"))
-  .map(l => l.trim());
+  .map(l => l.replace(/^\uFEFF/, "").trim()) // BOM-safe
+  .filter(l => /^##\s*/.test(l))
+  .map(l => l.replace(/^##\s*/, ""));
 
 console.log("\n--- VALIDATION REPORT ---\n");
 
