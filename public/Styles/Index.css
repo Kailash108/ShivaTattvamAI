@@ -31,23 +31,29 @@ html {
 .hero-logo-img {
   width: 3.8cm;
   height: 4cm;
-  animation: glowPulse 4s linear infinite;
+  animation: glowPulse 3s ease-in-out infinite;
 }
 @keyframes glowPulse {
   0% {
     filter:
-      drop-shadow(0 0 10px rgba(230, 192, 103, 0.45))
-      drop-shadow(0 0 20px rgba(230, 192, 103, 0.25));
+      drop-shadow(0 0 18px rgba(255, 235, 180, 0.95))
+      drop-shadow(0 0 45px rgba(230, 192, 103, 0.65))
+      drop-shadow(0 0 95px rgba(230, 192, 103, 0.38))
+      drop-shadow(0 0 180px rgba(230, 192, 103, 0.22));
   }
   50% {
     filter:
-      drop-shadow(0 0 20px rgba(230, 192, 103, 0.70))
-      drop-shadow(0 0 40px rgba(230, 192, 103, 0.50));
+      drop-shadow(0 0 32px rgba(255, 245, 200, 1))
+      drop-shadow(0 0 85px rgba(230, 192, 103, 0.85))
+      drop-shadow(0 0 160px rgba(230, 192, 103, 0.55))
+      drop-shadow(0 0 300px rgba(230, 192, 103, 0.35));
   }
   100% {
     filter:
-      drop-shadow(0 0 10px rgba(230, 192, 103, 0.45))
-      drop-shadow(0 0 20px rgba(230, 192, 103, 0.25));
+      drop-shadow(0 0 18px rgba(255, 235, 180, 0.95))
+      drop-shadow(0 0 45px rgba(230, 192, 103, 0.65))
+      drop-shadow(0 0 95px rgba(230, 192, 103, 0.38))
+      drop-shadow(0 0 180px rgba(230, 192, 103, 0.22));
   }
 }
 
