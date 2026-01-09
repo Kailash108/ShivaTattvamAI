@@ -15,10 +15,6 @@ function toggleStructure() {
   body.classList.toggle("structure-open", !panel.classList.contains("hidden"));
 }
 
-setTimeout(() => {
-  fetch("/health").catch(() => {});
-}, 1000);
-
 async function ask() {
   const btn = document.querySelector(".ask-btn");
   const loader = document.getElementById("loader");
@@ -36,8 +32,8 @@ async function ask() {
       question,
       language: lang.value,
       mode: mode.value,
-
     };
+
     const res = await fetch("/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -172,7 +168,13 @@ function createSamhitaCard(id, data) {
 
       li.addEventListener("click", e => {
         e.stopPropagation();
-        let text = "Elaborate on " + topic;
+        let text;
+        if (topic.includes("Summarize")){
+          text = topic;
+        }
+        else{
+          text = "Elaborate on " + topic;
+        }
         navigator.clipboard.writeText(text);
         alert("[" + topic + "] is copied")
       });
@@ -262,6 +264,7 @@ function speak(text, language, iconEl) {
   speechSynthesis.speak(utterance);
 }
 
+let currDate = new Date().toLocaleString("en-GB", { day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).replace(" at", ",");
 function exportPDF() {
   const messages = document.querySelectorAll(".msg");
   if (!messages.length) {
@@ -300,7 +303,7 @@ function exportPDF() {
   html2pdf()
     .set({
       margin: 10,
-      filename: "Shiva Puranam Dialogue.pdf",
+      filename: `Shiva_Puraanam_Dialogue_${currDate.replace(/[ ,:]/g, "_")}.pdf`,
       image: { type: "png", quality: 1 },
       html2canvas: { scale: 3 },
       jsPDF: {

@@ -5,7 +5,6 @@ import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
 
-
 import { MongoClient } from "mongodb";
 const MONGO_URI = process.env.MONGO_URI;
 let db;
@@ -21,9 +20,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/api/topics", (req, res) => {
   res.sendFile(path.join(__dirname, "Data", "Topics.json"));
-});
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
 });
 
 app.use((req, res, next) => {
@@ -44,26 +40,27 @@ const introText = fs.readFileSync(path.join(__dirname, "Data", "Introduction.txt
 const chapterText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapters.txt"), "utf8");
 const chapterOneText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter1.txt"), "utf8");
 const chapterTwoText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter2.txt"), "utf8");
+const chapterThreeText = fs.readFileSync(path.join(__dirname, "Data", "Chapters", "Chapter3.txt"), "utf8");
+const conclusionText = fs.readFileSync(path.join(__dirname, "Data", "Conclusion.txt"), "utf8");
 
-  const combinedText = `
-      === GENERAL INTRODUCTION ===
-      ${introText} 
-      === END OF GENERAL INTRODUCTION ===
-      === CHAPTER & SUB TOPIC CONTENT ===
-      ${chapterText}
-      === END OF CHAPTER & SUB TOPIC CONTENT ===
-      === CHAPTER 1 ===
-      ${chapterOneText}
-      === END OF CHAPTER 1 ===
-      === CHAPTER 2 ===
-      ${chapterTwoText}
-      === END OF CHAPTER 2 ===
-  `
+const combinedText = `
+  === GENERAL INTRODUCTION ===
+  ${introText} 
+  === CHAPTER 1 ===
+  ${chapterOneText}
+  === CHAPTER 2 ===
+  ${chapterTwoText}
+  === CHAPTER 3 ===
+  ${chapterThreeText}
+  === CONCLUSION ===
+  ${conclusionText}
+`
 
 const isLocalhost = process.env.NODE_ENV !== "production" && (process.env.HOST === "localhost" || !process.env.RENDER);
 if (isLocalhost) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-} else {
+} 
+else {
   delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
 }
 
@@ -71,18 +68,28 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-function getTextInfo(chapter) {
-  switch (chapter) {
-    case "INTRO":
-      return introText;
-    case "VIDVESWARA":
-      return chapterOneText;
-    case "RUDRA":
-      return chapterTwoText;
-    default: 
-      return combinedText;
-  }
-}
+// function getTextInfo(chapter) {
+//   switch (chapter) {
+//     case "INTRO":
+//       return introText;
+//     case "VIDVESWARA":
+//       return chapterOneText;
+//     case "RUDRA":
+//       return chapterTwoText;
+//     case "SHATA RUTRA":
+//       return chapterThreeText;
+//     case "KOTI RUTRA":
+//       return chapterFourText;
+//     case "UMAA":
+//       return chapterFiveText;
+//     case "KAILASA":
+//       return chapterSixText;
+//     case "VAYAVEEYA":
+//       return chapterSevenText;
+//     default: 
+//       return combinedText;
+//   }
+// }
 
 function buildSystemPrompt({ language, mode }) { 
   const languageRule = language === "te" ? `${translateTE}` : `${translateEN}`; 
@@ -110,12 +117,9 @@ async function findTopic(question) {
     model: "text-embedding-3-small",
     input: question
   });
-
   const qVec = res.data[0].embedding;
-
   let best = null;
   let bestScore = 0;
-
   for (const t of topicIndex) {
     const score = similarity(qVec, t.embedding);
     if (score > bestScore) {
@@ -123,7 +127,7 @@ async function findTopic(question) {
       best = t;
     }
   }
-  return bestScore > 0.25 ? best : null;
+  return bestScore > 0.40 ? best : null;
 }
 
 function normalize(s) {
@@ -167,9 +171,10 @@ app.post("/ask", async (req, res) => {
 
     topic = await findTopic(question);
     if(topic !== null){
-      chText = getTextInfo(topic.section)
+      // chText = getTextInfo(topic.section)
       chapter = topic.section || "";
-      sourceText = extractContent(topic.topic_te, chText);
+      sourceText = extractContent(topic.topic_te, combinedText);
+      // console.log(chapter, "\n", sourceText)
     }
 
     const systemPrompt = buildSystemPrompt({ language, mode });
