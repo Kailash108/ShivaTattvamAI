@@ -36,7 +36,7 @@
 
 ## 🙏 Intention
 
-ShivaTattvamAI aims to make sacred knowledge **available through Artificial Intelligence**.
+ShivaTattvamAI aims to make sacred knowledge **available through Artificial Intelligence based assistance**.
 
 ---
 
