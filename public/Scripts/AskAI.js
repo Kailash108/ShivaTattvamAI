@@ -9,10 +9,14 @@ if ("speechSynthesis" in window) {
 
 function toggleStructure() {
   const panel = document.getElementById("structurePanel");
+  const btnToggle = document.getElementById("btnToggle");
   const body = document.body;
 
-  panel.classList.toggle("hidden");
-  body.classList.toggle("structure-open", !panel.classList.contains("hidden"));
+  const isClosed = panel.classList.toggle("hidden");
+  body.classList.toggle("structure-open", !isClosed);
+
+  btnToggle.style.backgroundColor = isClosed? "" : "#e6c067";
+  btnToggle.style.color = isClosed? "" : "#0e0922"
 }
 
 async function ask() {
@@ -28,10 +32,17 @@ async function ask() {
   btn.classList.add("loading");
 
   try {
+    // if (/[^\p{Script=Latin}\s\d.,!?'"():;\-]/u.test(question)) {
+    //   btn.classList.remove("loading");
+    //   addAI("Only English is supported in question.");
+    //   addAI("Please ask your question in English or in any language written using English letters.")
+    //   return;
+    // }
     const payload = {
       question,
       language: lang.value,
       mode: mode.value,
+      source: source.value
     };
 
     const res = await fetch("/ask", {
@@ -54,17 +65,14 @@ async function ask() {
       throw new Error("Invalid JSON from server");
     }
 
-
     if (!data.answer) {
       throw new Error("Empty AI response");
     }
-
     btn.classList.remove("loading");
     addAI(data.answer);
 
     console.groupEnd();
   } catch (err) {
-    console.group("ASK ERROR");
     console.error(err);
     console.groupEnd();
 
@@ -100,8 +108,9 @@ function addAI(text) {
   dialogue.appendChild(msg);
 
   const readIcon = document.createElement("span");
+  readIcon.style.color = "#e6c067";
   readIcon.className = "read-icon";
-  readIcon.innerHTML = "🔊";
+  readIcon.innerHTML = "▶";
   readIcon.title = "Read aloud";
   readIcon.onclick = () => {
     speak(text, lang.value, readIcon);
@@ -121,17 +130,61 @@ function addAI(text) {
 let topicsData = {};
 const structureContent = document.getElementById("structureContent");
 
-fetch("api/topics")
-  .then(res => res.json())
-  .then(data => {
-    topicsData = data;
-    renderAllSamhitas();
-  });
+function loadStructure() {
+  const source = document.getElementById("source").value;
+
+  if (source === "shivapuranam") {
+    loadPuranaStructure();
+  } 
+  else if (source === "shivagita") {
+    loadGitaStructure();
+  }
+}
+
+loadStructure();
+
+function loadPuranaStructure() {
+  fetch("/api/topics")
+    .then(res => res.json())
+    .then(data => {
+      topicsData = data;
+      renderAllSamhitas();
+    });
+}
+
+function loadGitaStructure() {
+  fetch("/api/shivagita")
+    .then(res => res.json())
+    .then(data => {
+      renderGitaStructure(data.chapters);
+    });
+}
+
+  function popup(msg){
+    const p = document.createElement("div");
+    p.style =`
+      position:fixed;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      color:#c49b3a;
+      background:radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
+      padding:15px;
+      border: #c49b3a solid;
+      border-radius:8px;
+      z-index:9999`;
+    p.innerHTML = msg;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 3000);
+  }
 
 function renderAllSamhitas() {
-  structureContent
-    .querySelectorAll(".samhita-card")
-    .forEach(el => el.remove());
+  structureContent.innerHTML = `
+    <h1>Instructions:</h1>
+    <p>- Click a sub-topic from any chapter to copy it to the clipboard.</p>
+    <p>- Paste the copied sub-topic into the Ask box to get a quick and focused explanation.</p>`;
+
+  structureContent.querySelectorAll(".samhita-card").forEach(el => el.remove());
 
   Object.keys(topicsData).forEach(key => {
     const data = topicsData[key];
@@ -176,7 +229,7 @@ function createSamhitaCard(id, data) {
           text = "Elaborate on " + topic;
         }
         navigator.clipboard.writeText(text);
-        alert("[" + topic + "] is copied")
+        popup(`<b>${topic}</b> is copied to clipboard`)
       });
 
       ul.appendChild(li);
@@ -235,12 +288,14 @@ function speak(text, language, iconEl) {
   if (speechSynthesis.speaking) {
     speechSynthesis.cancel();
     currentUtterance = null;
-    if (iconEl) iconEl.innerHTML = "🔊";
+    iconEl.style.color = "#e6c067"
+    if (iconEl) iconEl.innerHTML = "▶";
     return;
   }
 
   const cleanText = sanitizeForSpeech(text);
   const utterance = new SpeechSynthesisUtterance(cleanText);
+  iconEl.style.color = "#e6c067"
 
   utterance.lang = language === "te" ? "te-IN" : "en-IN";
   utterance.rate = language === "te" ? 1 : 1;
@@ -248,17 +303,17 @@ function speak(text, language, iconEl) {
 
   utterance.onstart = () => {
     currentUtterance = utterance;
-    if (iconEl) iconEl.innerHTML = "⏹️";
+    if (iconEl) iconEl.innerHTML = "⏸";
   };
 
   utterance.onend = () => {
     currentUtterance = null;
-    if (iconEl) iconEl.innerHTML = "🔊";
+    if (iconEl) iconEl.innerHTML = "▶";
   };
 
   utterance.onerror = () => {
     currentUtterance = null;
-    if (iconEl) iconEl.innerHTML = "🔊";
+    if (iconEl) iconEl.innerHTML = "▶";
   };
 
   speechSynthesis.speak(utterance);

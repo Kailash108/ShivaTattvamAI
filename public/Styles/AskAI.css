@@ -46,6 +46,7 @@ body {
   height: 2cm;
   animation: glowPulse 3s ease-in-out infinite;
 }
+
 @keyframes glowPulse {
   0% {
     filter:
@@ -89,10 +90,11 @@ body {
 .dialogue {
   height: 40vh;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #c49b3a #0e0922;
   padding: 20px;
   margin: 20px 0;
   background: rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
 }
 
 .msg {
@@ -118,7 +120,6 @@ body {
   display: inline-block;
   max-width: 75%;
   padding: 10px;
-  border-radius: 14px;
   line-height: 1.5;
   white-space: pre-wrap;
 }
@@ -126,11 +127,17 @@ body {
 .user .bubble {
   background: #29294f;
   color: #efe3c4;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .ai .bubble {
   background: #c49b3a;
   color: #1e1a31;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 select {
@@ -316,7 +323,7 @@ h1, h3 {
 }
 
 .lang-row select {
-  width: 3cm;
+  width: 3.2cm;
   font-size: 12px;
   height: 24px;
   padding: 2px 8px;

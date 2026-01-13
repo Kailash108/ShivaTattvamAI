@@ -1,7 +1,7 @@
 window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
 
-const words = ["reading", "understanding"];
+const words = ["Shiva Purānam", "Shiva Gita"];
 const el = document.getElementById("animated-word");
 
 let wordIndex = 0;

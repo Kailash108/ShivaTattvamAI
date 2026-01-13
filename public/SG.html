@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shiva Gita | ShivaTattvamAI</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Noto+Serif+Telugu:wght@400;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="icon" type="image/svg" href="Logo_1.png">
+  <link rel="stylesheet" href="Styles/SG.css">
+  <script src="Scripts/SG.js"></script>
+
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="hero-brand">
+      <img src="Logo_1.png" alt="ShivaTattvamAI Logo" class="hero-logo-img" />
+      <div class="hero-title">ShivaTattvamAI</div>
+    </div>
+
+    <div style="text-align: center;">
+      <h1 class="page-title">Shiva Gita</h1>
+      <p class="subtitle">Explore Chapters of Shiva Gita. Click on each chapter to open the Shloka section</p>
+      <button onclick="location.href='index.html'"
+        style="border: 1px solid #e6c067;background: transparent;color: #efe3c4;padding: 6px 12px;cursor: pointer;border-radius: 8px;">
+        ← Go to Main Page
+      </button>
+
+    </div>
+    
+    <div id="chapterGrid" class="chapter-grid"></div>
+
+  </div>
+  <div id="panelModal" class="panel-modal hidden">
+    <div class="panel-header">
+      <span class="back-btn" onclick="closePanel()">← Chapters</span>
+      <div class="lang-actions">
+        <button id="te" onclick="setLang('te')">తెలుగు</button>
+        <button id="en" onclick="setLang('en')">English</button>
+        <button onclick="window.open('AskAI.html', '_blank', 'noopener,noreferrer')">Ask The AI</button>
+      </div>
+    </div>
+    <div class="panel-content">
+      <h2 id="panelTitle"></h2>
+      <p id="panelDesc" class="meaning-text"></p>
+      <div id="shlokaPanels"></div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>|| శివః జ్ఞానస్వరూపః ||<br />|| Sivaḥ Jnāna Svarūpah ||</p>
+    <p>• ShivaTattvamAI •</p>
+  </div>
+
+  </div>
+</body>
+
+</html>

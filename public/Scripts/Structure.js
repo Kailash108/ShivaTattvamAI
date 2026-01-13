@@ -39,3 +39,4 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Failed to update HTML:", err);
     });
 });
+

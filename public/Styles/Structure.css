@@ -25,6 +25,14 @@ body {
   height: 2cm;
   animation: glowPulse 3s ease-in-out infinite;
 }
+.footer {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.7;
+  padding: 40px;
+}
 @keyframes glowPulse {
   0% {
     filter:
@@ -146,3 +154,5 @@ body {
   color: #1a1a1a;
   background: linear-gradient(90deg, #c49b3a, #e6c067);
 }
+
+

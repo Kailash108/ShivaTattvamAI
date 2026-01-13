@@ -7,23 +7,32 @@ const introText = fs.readFileSync(path.join(process.cwd(), "Data", "Introduction
 const chapterOneText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter1.txt"), "utf8");
 const chapterTwoText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter2.txt"), "utf8");
 const chapterThreeText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter3.txt"), "utf8");
+const chapterFourText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter4.txt"), "utf8");
+const chapterFiveText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter5.txt"), "utf8");
+const chapterSixText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter6.txt"), "utf8");
+const chapterSevenText = fs.readFileSync(path.join(process.cwd(), "Data", "Chapters", "Chapter7.txt"), "utf8");
 const conclusionText = fs.readFileSync(path.join(process.cwd(), "Data", "Conclusion.txt"), "utf8");
 
 
 const content = `
-      === GENERAL INTRODUCTION ===
-      ${introText} 
-      === END OF GENERAL INTRODUCTION ===
-      === CHAPTER 1 ===
-      ${chapterOneText}
-      === END OF CHAPTER 1 ===
-      === CHAPTER 2 ===
-      ${chapterTwoText}
-      === END OF CHAPTER 2 ===
-      === CHAPTER 3 ===
-      ${chapterThreeText}
-      === CONCLUSION ===
-      ${conclusionText}
+  === GENERAL INTRODUCTION ===
+  ${introText} 
+  === CHAPTER 1 ===
+  ${chapterOneText}
+  === CHAPTER 2 ===
+  ${chapterTwoText}
+  === CHAPTER 3 ===
+  ${chapterThreeText}
+  === CHAPTER 4 ===
+  ${chapterFourText}
+  === CHAPTER 5 ===
+  ${chapterFiveText}
+  === CHAPTER 6 ===
+  ${chapterSixText}
+  === CHAPTER 7 ===
+  ${chapterSevenText}
+  === CONCLUSION ===
+  ${conclusionText}
   `
 
 function normalize(s) {
