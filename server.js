@@ -334,7 +334,7 @@ app.post("/ask", async (req, res) => {
         AnswerLength: answer.length,
         DateTime: new Date().toLocaleString("en-GB", { hour12: true })
     };
-    console.log(sessionLogs.TotalTokens, sessionLogs.ReferenceTextLength)
+    // console.log(sessionLogs.TotalTokens, sessionLogs.ReferenceTextLength)
     
     await db.collection(process.env.COLLECTION).insertOne(sessionLogs);
     res.json({ answer });
