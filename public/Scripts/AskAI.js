@@ -1,5 +1,13 @@
-window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+window.va =
+  window.va ||
+  function () {
+    (window.vaq = window.vaq || []).push(arguments);
+  };
+window.si =
+  window.si ||
+  function () {
+    (window.siq = window.siq || []).push(arguments);
+  };
 
 if ("speechSynthesis" in window) {
   window.speechSynthesis.onvoiceschanged = () => {
@@ -15,8 +23,8 @@ function toggleStructure() {
   const isClosed = panel.classList.toggle("hidden");
   body.classList.toggle("structure-open", !isClosed);
 
-  btnToggle.style.backgroundColor = isClosed? "" : "#e6c067";
-  btnToggle.style.color = isClosed? "" : "#0e0922"
+  btnToggle.style.backgroundColor = isClosed ? "" : "#e6c067";
+  btnToggle.style.color = isClosed ? "" : "#0e0922";
 }
 
 async function ask() {
@@ -42,7 +50,7 @@ async function ask() {
       question,
       language: lang.value,
       mode: mode.value,
-      source: source.value
+      source: source.value,
     };
 
     const res = await fetch("/ask", {
@@ -135,8 +143,7 @@ function loadStructure() {
 
   if (source === "shivapuranam") {
     loadPuranaStructure();
-  } 
-  else if (source === "shivagita") {
+  } else if (source === "shivagita") {
     loadGitaStructure();
   }
 }
@@ -145,8 +152,8 @@ loadStructure();
 
 function loadPuranaStructure() {
   fetch("/api/topics")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       topicsData = data;
       renderAllSamhitas();
     });
@@ -154,15 +161,15 @@ function loadPuranaStructure() {
 
 function loadGitaStructure() {
   fetch("/api/shivagita")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       renderGitaStructure(data.chapters);
     });
 }
 
-  function popup(msg){
-    const p = document.createElement("div");
-    p.style =`
+function popup(msg) {
+  const p = document.createElement("div");
+  p.style = `
       position:fixed;
       top:50%;
       left:50%;
@@ -173,10 +180,73 @@ function loadGitaStructure() {
       border: #c49b3a solid;
       border-radius:8px;
       z-index:9999`;
-    p.innerHTML = msg;
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 3000);
-  }
+  p.innerHTML = msg;
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 3000);
+}
+
+function preview(lines) {
+  return lines.length > 10
+    ? [...lines.slice(0, 5), "…", ...lines.slice(-5)].join("<br>")
+    : lines.join("<br>");
+}
+
+function renderGitaStructure(chapters) {
+  structureContent.innerHTML = `
+    <h1>Instructions:</h1>
+    <p>- Click on any Shloka range from any chapter to copy it to the clipboard.</p>
+    <p>- Paste the copied range into the Ask box to get a quick and focused explanation.</p>
+  `;
+
+  chapters.forEach((chapter) => {
+    const card = document.createElement("div");
+    card.className = "samhita-card";
+
+    let ranges = "";
+
+    for (let i = 0; i < chapter.shlokas.length; i += 5) {
+      const start = chapter.shlokas[i].shloka_number;
+      const end = chapter.shlokas[Math.min(i + 4, chapter.shlokas.length - 1)].shloka_number;
+
+      ranges += `<li>Shlokas ${start}–${end}</li>`;
+    }
+
+    let chapterRender = chapter.chapter_number === "Gita Mahatyam" ? 
+      `${chapter.chapter_title}` : `Chapter ${chapter.chapter_number} – ${chapter.chapter_title}`;
+
+    card.innerHTML = `
+      <div class="samhita-header">
+        <div class="samhita-title">
+          ${chapterRender}
+        </div>
+        <div class="samhita-toggle">&#8595;</div>
+      </div>
+      <div class="samhita-content">
+        <ul>${ranges}</ul>
+      </div>
+    `;
+
+    card.querySelector(".samhita-header").onclick = () =>
+      card.classList.toggle("active");
+
+    [...card.querySelectorAll("li")].forEach((li, idx) => {
+      const start = chapter.shlokas[idx * 5].shloka_number;
+      const end = chapter.shlokas[Math.min(idx * 5 + 4, chapter.shlokas.length - 1)].shloka_number;
+
+      let popupRender = chapter.chapter_number === "Gita Mahatyam" ? 
+        `${chapter.chapter_number}, Shloka range (${start}-${end}) is copied`
+          : `Chapter ${chapter.chapter_number}, Shloka range (${start}-${end}) is copied`
+        
+      li.onclick = (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(`Explain Shiva Gita Chapter - ${chapter.chapter_number}, Shlokas ${start}–${end}`);
+        popup(`${popupRender}`);
+      };
+    });
+
+    structureContent.appendChild(card);
+  });
+}
 
 function renderAllSamhitas() {
   structureContent.innerHTML = `
@@ -184,9 +254,11 @@ function renderAllSamhitas() {
     <p>- Click a sub-topic from any chapter to copy it to the clipboard.</p>
     <p>- Paste the copied sub-topic into the Ask box to get a quick and focused explanation.</p>`;
 
-  structureContent.querySelectorAll(".samhita-card").forEach(el => el.remove());
+  structureContent
+    .querySelectorAll(".samhita-card")
+    .forEach((el) => el.remove());
 
-  Object.keys(topicsData).forEach(key => {
+  Object.keys(topicsData).forEach((key) => {
     const data = topicsData[key];
     if (!data) return;
 
@@ -215,35 +287,32 @@ function createSamhitaCard(id, data) {
   if (!data.topics || data.topics.length === 0) {
     ul.innerHTML = "<li>No topics available</li>";
   } else {
-    data.topics.forEach(topic => {
+    data.topics.forEach((topic) => {
       const li = document.createElement("li");
       li.textContent = topic;
 
-      li.addEventListener("click", e => {
+      li.addEventListener("click", (e) => {
         e.stopPropagation();
         let text;
-        if (topic.includes("Summarize")){
+        if (topic.includes("Summarize")) {
           text = topic;
-        }
-        else{
+        } else {
           text = "Elaborate on " + topic;
         }
         navigator.clipboard.writeText(text);
-        popup(`<b>${topic}</b> is copied to clipboard`)
+        popup(`<b>${topic}</b> is copied to clipboard`);
       });
 
       ul.appendChild(li);
     });
   }
 
-  card.querySelector(".samhita-header")
-    .addEventListener("click", () => {
-      card.classList.toggle("active");
-    });
+  card.querySelector(".samhita-header").addEventListener("click", () => {
+    card.classList.toggle("active");
+  });
 
   return card;
 }
-
 
 function isVerse(text) {
   return (
@@ -288,14 +357,14 @@ function speak(text, language, iconEl) {
   if (speechSynthesis.speaking) {
     speechSynthesis.cancel();
     currentUtterance = null;
-    iconEl.style.color = "#e6c067"
+    iconEl.style.color = "#e6c067";
     if (iconEl) iconEl.innerHTML = "▶";
     return;
   }
 
   const cleanText = sanitizeForSpeech(text);
   const utterance = new SpeechSynthesisUtterance(cleanText);
-  iconEl.style.color = "#e6c067"
+  iconEl.style.color = "#e6c067";
 
   utterance.lang = language === "te" ? "te-IN" : "en-IN";
   utterance.rate = language === "te" ? 1 : 1;
@@ -319,7 +388,16 @@ function speak(text, language, iconEl) {
   speechSynthesis.speak(utterance);
 }
 
-let currDate = new Date().toLocaleString("en-GB", { day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true }).replace(" at", ",");
+let currDate = new Date()
+  .toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  })
+  .replace(" at", ",");
 function exportPDF() {
   const messages = document.querySelectorAll(".msg");
   if (!messages.length) {
@@ -358,7 +436,10 @@ function exportPDF() {
   html2pdf()
     .set({
       margin: 10,
-      filename: `Shiva_Puraanam_Dialogue_${currDate.replace(/[ ,:]/g, "_")}.pdf`,
+      filename: `Shiva_Puraanam_Dialogue_${currDate.replace(
+        /[ ,:]/g,
+        "_"
+      )}.pdf`,
       image: { type: "png", quality: 1 },
       html2canvas: { scale: 3 },
       jsPDF: {

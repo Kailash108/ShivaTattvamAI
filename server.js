@@ -130,19 +130,21 @@ function getShivaGitaContext(question) {
     .replace(/\b(fourteenth|14th)\b/g, "14")
     .replace(/\b(fifteenth|15th)\b/g, "15")
     .replace(/\b(sixteenth|16th)\b/g, "16")
-    .replace(/\b(verses|verse|sloka)\b/g, "shloka");
+    .replace(/\b(verses|verse|sloka|shlokas)\b/g, "shloka");
 
-  const chapterMatch = q.match(/\bchapter\s*(\d+)\b/);
+  const chapterMatch = q.match(/\bchapter\s*(\d+)\b/) || q.match(/\bchapter\s*-\s*(\d+)\b/); 
+
   const chapterNum = chapterMatch ? Number(chapterMatch[1]) : null;
 
   const isGitaMahatyam = /\b(introduction|intro|gita\s*mahaty?am|gīta\s*mahāty?am)\b/.test(q);
 
   let shlokaNums = [];
 
-  const rangeMatch = q.match(/\bshloka\s*(\d+)\s*(to|\-)\s*(\d+)\b/);
+  const rangeMatch = q.match(/\bshloka\s*(\d+)\s*(to|\-)\s*(\d+)\b/) || q.match(/\bshloka\s*(\d+)\s*[–-]\s*(\d+)\b/);        
+
   if (rangeMatch) {
     const start = Number(rangeMatch[1]);
-    const end = Number(rangeMatch[3]);
+    const end = Number(rangeMatch[3] || rangeMatch[2]);
     for (let i = start; i <= end; i++) shlokaNums.push(i);
   }
 
@@ -168,7 +170,8 @@ function getShivaGitaContext(question) {
   }
 
   if (!ch && shlokaNums.length === 0) {
-    return shivaGitaData.chapters.map(c => `Chapter ${c.chapter_number}:\n${c.chapter_description.en}`)
+    return shivaGitaData.chapters
+      .map(c => `Chapter ${c.chapter_number}:\n${c.chapter_description.en}`)
       .join("\n\n");
   }
 

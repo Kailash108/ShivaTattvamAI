@@ -164,6 +164,7 @@ body {
 }
 
 .chapter-card .verse-count {
+  font-family: "Noto Serif Telugu", serif;
   color: #f5d28c;
   font-size: 14px;
   margin: 10px 0 14px;
@@ -227,6 +228,7 @@ body {
   border-radius: 8px;
   margin-left: 6px;
   cursor: pointer;
+  font-size: 12px;
 }
 
 /* ---------- CONTENT ---------- */
@@ -238,12 +240,14 @@ body {
 
 #panelTitle {
   color: #f5d28c;
+  font-family: "Noto Serif Telugu", serif;
 }
 
 #panelDesc {
   line-height: 1.9;
   opacity: 0.9;
   margin-bottom: 40px;
+  font-family: "Noto Serif Telugu", serif;
 }
 
 /* ---------- SHLOKA PANELS ---------- */
@@ -251,6 +255,7 @@ body {
   padding: 22px 0;
   border-bottom: 1px solid rgba(196,155,58,0.2);
   cursor: pointer;
+  font-family: "Noto Serif Telugu", serif;
 }
 
 .shloka-panel.inactive {
@@ -298,14 +303,14 @@ body {
   cursor: pointer;
   font-size: 18px;
   user-select: none;
+  color:#e6c067
 }
 
 .speak-icon:hover {
   opacity: 0.8;
 }
 
-.shloka-te-meaning,
-.shloka-en-meaning {
+.shloka-te-meaning, .shloka-en-meaning {
   line-height: 1.8;
   margin-top: 10px;
 }

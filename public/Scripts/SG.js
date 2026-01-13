@@ -27,20 +27,22 @@ function speakMeaning(text, lang, iconEl) {
   if (speechSynthesis.speaking) {
     speechSynthesis.cancel();
     currentUtterance = null;
+    iconEl.style.color = "#e6c067";
     if (iconEl) iconEl.innerText = "▶";
     return;
   }
 
   const utterance = new SpeechSynthesisUtterance(sanitizeForSpeech(text));
   utterance.lang = lang === "te" ? "te-IN" : "en-IN";
-
   utterance.onstart = () => {
     currentUtterance = utterance;
+    iconEl.style.color = "#e6c067";
     if (iconEl) iconEl.innerText = "⏸";
   };
 
   utterance.onend = utterance.onerror = () => {
     currentUtterance = null;
+    iconEl.style.color = "#e6c067";
     if (iconEl) iconEl.innerText = "▶";
   };
 
@@ -119,7 +121,7 @@ function openPanel(ch) {
   const descEl = document.getElementById("panelDesc");
   descEl.innerHTML = `
     <span>${desc}</span>
-    <span style="margin-left:8px; cursor:pointer;">▶</span>
+    <span style="color:#e6c067;margin-left:8px; cursor:pointer;">▶</span>
   `;
 
   const speakIcon = descEl.querySelector("span:last-child");
