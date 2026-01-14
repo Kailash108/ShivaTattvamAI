@@ -66,9 +66,7 @@ The AI does **not invent, alter, or speculate** beyond the supplied source mater
 - Installable as a **Progressive Web App**
 - Opens in **standalone mode** (no browser UI)
 - Optimized for **mobile-first usage**
-- Touch-based interactions (tap instead of hover)
-- Smooth page transitions and animations
-
+- 
 ---
 
 ### 📴 Offline Study Support
@@ -101,8 +99,6 @@ This ensures uninterrupted study even without network access.
 ### Frontend
 - HTML, CSS, Vanilla JavaScript
 - Mobile-first responsive design
-- Progressive Web App (PWA)
-- Service Workers for offline caching
 
 ### Backend
 - Node.js
@@ -131,6 +127,4 @@ This ensures uninterrupted study even without network access.
 
 ## 🙏 Intention
 
-ShivaTattvamAI aims to support seekers by making sacred knowledge **accessible through carefully guided Artificial Intelligence**, while honoring the depth, discipline, and sanctity of traditional learning.
-
-This project does **not replace teach**
+ShivaTattvamAI aims to support seekers by making sacred knowledge **accessible through Artificial Intelligence**, while honoring the depth, discipline, and sanctity of traditional learning.
