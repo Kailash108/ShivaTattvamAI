@@ -196,6 +196,11 @@ function renderGitaStructure(chapters) {
     <h1>Instructions:</h1>
     <p>- Click on any Shloka range from any chapter to copy it to the clipboard.</p>
     <p>- Paste the copied range into the Ask box to get a quick and focused explanation.</p>
+    <div style="text-align:center">
+      <button rel="noopener noreferrer" class="theme-btn" onclick="window.open('SG.html', '_blank')">
+        Open Shloka Page
+      </button>
+    </div>
   `;
 
   chapters.forEach((chapter) => {

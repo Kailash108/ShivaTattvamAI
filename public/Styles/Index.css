@@ -163,7 +163,7 @@ html {
 }
 
 .feature {
-  background: linear-gradient(180deg, #c49b3a, #e6c067);
+  background: #c49b3a;
   color: #1e1a31;
   padding: 30px;
   border-radius: 16px;
@@ -191,7 +191,7 @@ html {
 }
 
 .stat {
-  background: linear-gradient(90deg, #c49b3a, #e6c067);
+  background: #c49b3a;
   color: #1e1a31;
   padding: 30px;
   border-radius: 18px;
@@ -259,6 +259,7 @@ html {
 }
 
 .sample-dialogue .ai-bubble {
+  font-family: "Noto Serif Telugu", serif;
   background: #c49b3a;
   color: #1e1a31;
   text-align: left;
@@ -272,14 +273,14 @@ html {
   text-decoration: none;
   background: linear-gradient(45deg, #0e0922, #1e1a31);
   border-radius: 18px;
-  border-left: 6px solid #c49b3a;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-left: 3px solid #c49b3a;
+  border-top: 3px solid #c49b3a;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .book-cta:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 1px 40px #e6c067;
 }
 
 .book-text {
