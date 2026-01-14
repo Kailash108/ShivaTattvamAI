@@ -2,7 +2,26 @@ body {
   margin: 0;
   font-family: "Playfair Display", serif;
   background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
+  transition: opacity 1s ease, transform 1s ease;
   color: #efe3c4;
+}
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #0e0922;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #e6c067;
+  border-radius: 10px;
+  border: 2px solid #0e0922;
+}
+
+body.exit {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
 html {
@@ -328,6 +347,42 @@ html {
   opacity: 0.7;
   padding: 40px;
 }
+
+.install-btn {
+  margin: 10px;
+  padding: 10px;
+  font-family: "Noto Serif", serif;
+  font-size: 16px;
+  color: #e6c067;
+  background: none;
+  border: 1px solid #c49b3a;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 0 rgba(196,155,58,0.4);
+  animation: subtleGlow 4s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.install-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(196,155,58,0.35);
+}
+
+.install-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+@keyframes subtleGlow {
+  0%   { box-shadow: 0 0 0 rgba(196,155,58,0.2); }
+  50%  { box-shadow: 0 0 18px rgba(196,155,58,0.45); }
+  100% { box-shadow: 0 0 0 rgba(196,155,58,0.2); }
+}
+
 
 @media (max-width: 768px) {
   .features {

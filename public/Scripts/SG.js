@@ -100,7 +100,8 @@ function renderChapterGrid() {
 
 function openPanel(ch) {
   currentChapter = ch;
-  document.getElementById("panelModal").classList.remove("hidden");
+  document.getElementById("panelModal").classList.add("show");
+
 
   const title =
     ch.chapter_number === "Gita Mahatyam"
@@ -202,7 +203,7 @@ function activatePanel(panel) {
 }
 
 function closePanel() {
-  document.getElementById("panelModal").classList.add("hidden");
+  document.getElementById("panelModal").classList.remove("show");
   currentChapter = null;
 }
 
@@ -222,3 +223,7 @@ function setLang(lang) {
   }
   if (currentChapter) openPanel(currentChapter, lang);
 }
+
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
+});

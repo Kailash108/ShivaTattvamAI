@@ -18,14 +18,21 @@ if ("speechSynthesis" in window) {
 function toggleStructure() {
   const panel = document.getElementById("structurePanel");
   const btnToggle = document.getElementById("btnToggle");
-  const body = document.body;
 
-  const isClosed = panel.classList.toggle("hidden");
-  body.classList.toggle("structure-open", !isClosed);
+  const isClosed = !panel.classList.contains("show");
 
-  btnToggle.style.backgroundColor = isClosed ? "" : "#e6c067";
-  btnToggle.style.color = isClosed ? "" : "#0e0922";
+  if (isClosed) {
+    panel.classList.remove("hidden");
+    setTimeout(() => panel.classList.add("show"), 10);
+  } else {
+    panel.classList.remove("show");
+    setTimeout(() => panel.classList.add("hidden"), 300);
+  }
+
+  btnToggle.style.backgroundColor = isClosed ? "#e6c067" : "";
+  btnToggle.style.color = isClosed ? "#0e0922" : "";
 }
+
 
 async function ask() {
   const btn = document.querySelector(".ask-btn");
@@ -460,3 +467,7 @@ function exportPDF() {
       document.body.removeChild(temp);
     });
 }
+
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
+});

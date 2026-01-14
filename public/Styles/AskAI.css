@@ -10,6 +10,13 @@ body {
   background: var(--bg-main);
   color: var(--text-main);
   font-family: "Playfair Display", serif;
+  transition: opacity 1s ease, transform 1s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+body.loaded {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .container {
@@ -20,7 +27,8 @@ body {
   background: var(--card-bg);
   flex: 1;
   overflow: auto;
-  scrollbar-width: none;
+  scrollbar-color: #e6c067 #0e0922;
+  scrollbar-width: thin;
 }
 .container2 {
   max-width: 1000px;
@@ -28,6 +36,19 @@ body {
   padding: 60px 40px;
   scrollbar-width: none;
   font-size: 13px;
+}
+.page-layout::-webkit-scrollbar {
+  width: 10px;
+}
+
+.page-layout::-webkit-scrollbar-track {
+  background: #0e0922;
+}
+
+.page-layout::-webkit-scrollbar-thumb {
+  background-color: #e6c067;
+  border-radius: 10px;
+  border: 2px solid #0e0922;
 }
 
 .header {
@@ -49,22 +70,19 @@ body {
 
 @keyframes glowPulse {
   0% {
-    filter:
-      drop-shadow(0 0 18px rgba(255, 235, 180, 0.95))
+    filter: drop-shadow(0 0 18px rgba(255, 235, 180, 0.95))
       drop-shadow(0 0 45px rgba(230, 192, 103, 0.65))
       drop-shadow(0 0 95px rgba(230, 192, 103, 0.38))
       drop-shadow(0 0 180px rgba(230, 192, 103, 0.22));
   }
   50% {
-    filter:
-      drop-shadow(0 0 32px rgba(255, 245, 200, 1))
+    filter: drop-shadow(0 0 32px rgba(255, 245, 200, 1))
       drop-shadow(0 0 85px rgba(230, 192, 103, 0.85))
       drop-shadow(0 0 160px rgba(230, 192, 103, 0.55))
       drop-shadow(0 0 300px rgba(230, 192, 103, 0.35));
   }
   100% {
-    filter:
-      drop-shadow(0 0 18px rgba(255, 235, 180, 0.95))
+    filter: drop-shadow(0 0 18px rgba(255, 235, 180, 0.95))
       drop-shadow(0 0 45px rgba(230, 192, 103, 0.65))
       drop-shadow(0 0 95px rgba(230, 192, 103, 0.38))
       drop-shadow(0 0 180px rgba(230, 192, 103, 0.22));
@@ -293,9 +311,18 @@ li:hover {
   color: #efe3c4;
   border-right: 1px solid #ccc;
   overflow-y: auto;
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.structure-panel.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
 }
 
-h1, h3 {
+h1,
+h3 {
   color: #e6c067;
   text-decoration: underline;
 }

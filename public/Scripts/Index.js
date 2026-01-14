@@ -47,9 +47,50 @@ const observer = new IntersectionObserver(
 
 sections.forEach((section) => observer.observe(section));
 
-function hideLoader() {
-  loader.classList.add("hidden");
-  setTimeout(() => {
-    loader.style.display = "none";
-  }, 700);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () =>
+    navigator.serviceWorker.register("/service-worker.js")
+  );
 }
+
+const pwaBtn = document.getElementById("installBtn");
+let deferredPrompt;
+
+const isInstalled = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+function setButton(installed) {
+  pwaBtn.hidden = false;
+  pwaBtn.classList.toggle("installed", installed);
+  pwaBtn.innerHTML = installed
+    ? "ShivaTattvamAI Installed<br><span class='install-sub'>Tap & hold for uninstall info</span>"
+    : "Install ShivaTattvamAI";
+}
+
+if (isInstalled) setButton(true);
+
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!isInstalled) setButton(false);
+});
+
+pwaBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  await deferredPrompt.prompt();
+  setButton(true);
+  deferredPrompt = null;
+});
+
+window.addEventListener("appinstalled", () => setButton(true));
+
+pwaBtn.addEventListener("contextmenu", e => {
+  if (!isInstalled) return;
+  e.preventDefault();
+  alert(
+    "To uninstall ShivaTattvamAI:\n\n" +
+    "• Android: Long-press app icon → Uninstall\n" +
+    "• Desktop: App menu → Uninstall\n" +
+    "• iOS: Long-press icon → Remove App"
+  );
+});

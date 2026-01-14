@@ -3,6 +3,26 @@ body {
   background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
   color: #efe3c4;
   font-family: "Playfair Display", serif;
+  transition: opacity 1s ease, transform 1s ease;
+  opacity: 0;
+  transform: translateY(10px)
+}
+body.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #0e0922;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #e6c067;
+  border-radius: 10px;
+  border: 2px solid #0e0922;
 }
 
 .container {
@@ -190,13 +210,16 @@ body {
   inset: 0;
   background: linear-gradient(180deg, #121826, #0e0922);
   z-index: 999;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: #e6c067 #0e0922;
+  transition: opacity .5s ease, transform .5s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
 }
 
-.hidden {
-  display: none;
+.panel-modal.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .panel-header {
@@ -255,14 +278,22 @@ body {
   border-bottom: 1px solid rgba(196,155,58,0.2);
   cursor: pointer;
   font-family: "Noto Serif Telugu", serif;
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 .shloka-panel.inactive {
-  opacity: 0.45;
+  opacity: .45;
+  transition: opacity 1s ease;
 }
 
 .shloka-panel.active {
   opacity: 1;
+}
+
+.shloka-panel .shloka-body {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 .shloka-header {
@@ -277,6 +308,8 @@ body {
 
 .shloka-panel.active .shloka-body {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .shloka-en {
