@@ -471,3 +471,4 @@ function exportPDF() {
 window.addEventListener("load", () => {
   document.body.classList.add("loaded");
 });
+document.addEventListener("contextmenu", e => e.preventDefault());

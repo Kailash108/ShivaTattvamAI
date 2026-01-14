@@ -106,3 +106,5 @@ installBtn.addEventListener("contextmenu", e => {
     "• iOS: Long-press icon → Remove App"
   );
 });
+
+document.addEventListener("contextmenu", e => e.preventDefault());
