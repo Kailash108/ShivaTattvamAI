@@ -142,39 +142,11 @@ body::-webkit-scrollbar-thumb {
 .chapter-card {
   background: linear-gradient(180deg, #121826, #0e0922);
   color: #efe3c4;
+  border: #c49b3a solid 1px;
   border-radius: 22px;
   padding: 28px;
   cursor: pointer;
-  transition:
-    transform 0.45s ease,
-    box-shadow 0.45s ease,
-    background 0.45s ease,
-    color 0.45s ease,
-    border 0.45s ease;
-   box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.35),
-    0 0 14px rgba(230, 192, 103, 0.25);
-  animation: shivaAura 4s ease-in-out infinite;
 }
-@keyframes shivaAura {
-  0% {
-    box-shadow:
-      0 8px 22px rgba(0, 0, 0, 0.35),
-      0 0 12px rgba(230, 192, 103, 0.22);
-  }
-  50% {
-    box-shadow:
-      0 10px 26px rgba(0, 0, 0, 0.45),
-      0 0 22px rgba(230, 192, 103, 0.38);
-  }
-  100% {
-    box-shadow:
-      0 8px 22px rgba(0, 0, 0, 0.35),
-      0 0 12px rgba(230, 192, 103, 0.22);
-  }
-}
-
-
 
 .chapter-card h3 {
   color: #e6c067;
@@ -354,11 +326,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (hover: hover) {
-  .book-cta:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-  }
-  .chapter-card:active {
+  .chapter-card:hover {
     background: #c49b3a;
     transform: translateY(-10px) scale(1.015);
   }
@@ -371,10 +339,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (hover: none) {
-  .book-cta:active {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-  }
   .chapter-card:active {
     background: #c49b3a;
     transform: translateY(-10px) scale(1.015);
