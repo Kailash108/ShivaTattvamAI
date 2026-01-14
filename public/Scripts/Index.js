@@ -72,19 +72,31 @@ if (isInstalled) setButton(true);
 window.addEventListener("beforeinstallprompt", e => {
   e.preventDefault();
   deferredPrompt = e;
-  if (!isInstalled) setButton(false);
+
+  if (!isInstalled()) {
+    installBtn.style.display = "block";
+  }
 });
 
-pwaBtn.addEventListener("click", async () => {
+
+installBtn.addEventListener("click", async () => {
   if (!deferredPrompt) return;
-  await deferredPrompt.prompt();
-  setButton(true);
+
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === "accepted") {
+    installBtn.style.display = "none";
+  }
+
   deferredPrompt = null;
 });
 
-window.addEventListener("appinstalled", () => setButton(true));
+window.addEventListener("appinstalled", () => {
+  installBtn.style.display = "none";
+});
 
-pwaBtn.addEventListener("contextmenu", e => {
+installBtn.addEventListener("contextmenu", e => {
   if (!isInstalled) return;
   e.preventDefault();
   alert(
