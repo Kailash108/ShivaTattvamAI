@@ -1,4 +1,4 @@
-const CACHE = "ShivaTattvamAI-v0.0.2";
+const CACHE = "ShivaTattvamAI-v0.0.1";
 
 const STATIC_FILES = [
   "/",
