@@ -11,7 +11,8 @@ body {
   color: #efe3c4;
   transition: opacity 1s ease, transform 1s ease;
   opacity: 0;
-  transform: translateY(10px)
+  transform: translateY(10px);
+  -webkit-overflow-scrolling: touch;
 }
 body.loaded {
   opacity: 1;

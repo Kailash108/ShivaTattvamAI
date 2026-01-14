@@ -10,6 +10,7 @@ body {
   background: radial-gradient(circle, #1e1a31 0%, #0e0922 80%);
   transition: opacity 1s ease, transform 1s ease;
   color: #efe3c4;
+  -webkit-overflow-scrolling: touch;
 }
 body::-webkit-scrollbar {
   width: 10px;
