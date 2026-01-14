@@ -1,10 +1,10 @@
 const CACHE = "ShivaTattvamAI-v0.1";
 
-const OFFLINE_FILES = [
+const STATIC_FILES = [
   "/",
   "/index.html",
-  "/sg.html",
-  "/structure.html",
+  "/SG.html",
+  "/Structure.html",
 
   "/Styles/Index.css",
   "/Styles/SG.css",
@@ -18,14 +18,27 @@ const OFFLINE_FILES = [
   "/manifest.json"
 ];
 
-// Install
+const API_FILES = [
+  "/api/topics",
+  "/api/shivagita"
+];
+
 self.addEventListener("install", e => {
   e.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(OFFLINE_FILES))
+    (async () => {
+      const cache = await caches.open(CACHE);
+
+      await cache.addAll(STATIC_FILES);
+      for (const api of API_FILES) {
+        try {
+          const res = await fetch(api);
+          if (res.ok) await cache.put(api, res.clone());
+        } catch (_) {}
+      }
+    })()
   );
 });
 
-// Activate
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -35,32 +48,19 @@ self.addEventListener("activate", e => {
   self.clients.claim();
 });
 
-// Fetch
 self.addEventListener("fetch", e => {
   const req = e.request;
-  const url = req.url;
+  const url = new URL(req.url);
 
-  // ❌ Only AskAI page is blocked offline
-  if (url.includes("askai.html")) {
-    return;
-  }
+  if (url.pathname === "/AskAI.html") return;
 
-  // ✅ APIs: network-first, cache only good responses
-  if (url.includes("/api/")) {
+  if (url.pathname.startsWith("/api/")) {
     e.respondWith(
-      fetch(req)
-        .then(res => {
-          if (res.ok) {
-            caches.open(CACHE).then(c => c.put(req, res.clone()));
-          }
-          return res;
-        })
-        .catch(() => caches.match(req))
+      caches.match(req).then(cached => cached || fetch(req))
     );
     return;
   }
 
-  // ✅ Static files: cache-first
   e.respondWith(
     caches.match(req).then(res => res || fetch(req))
   );
