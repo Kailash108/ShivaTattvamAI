@@ -3,8 +3,8 @@ const CACHE = "ShivaTattvamAI-v0.1";
 const OFFLINE_FILES = [
   "/",
   "/index.html",
-  "/SG.html",
-  "/Structure.html",
+  "/sg.html",
+  "/structure.html",
 
   "/Styles/Index.css",
   "/Styles/SG.css",
@@ -18,35 +18,50 @@ const OFFLINE_FILES = [
   "/manifest.json"
 ];
 
+// Install
 self.addEventListener("install", e => {
   e.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll(OFFLINE_FILES))
   );
 });
 
+// Activate
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.map(k => k !== CACHE && caches.delete(k)))
     )
   );
+  self.clients.claim();
 });
 
+// Fetch
 self.addEventListener("fetch", e => {
-  const url = e.request.url;
+  const req = e.request;
+  const url = req.url;
 
+  // ❌ Only AskAI page is blocked offline
+  if (url.includes("askai.html")) {
+    return;
+  }
 
-  if (url.includes("AskAI.html")) return;
+  // ✅ APIs: network-first, cache only good responses
+  if (url.includes("/api/")) {
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          if (res.ok) {
+            caches.open(CACHE).then(c => c.put(req, res.clone()));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
 
+  // ✅ Static files: cache-first
   e.respondWith(
-    caches.match(e.request).then(res =>
-      res ||
-      fetch(e.request).then(net => {
-        if (e.request.method === "GET") {
-          caches.open(CACHE).then(c => c.put(e.request, net.clone()));
-        }
-        return net;
-      })
-    )
+    caches.match(req).then(res => res || fetch(req))
   );
 });
