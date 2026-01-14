@@ -302,9 +302,26 @@ html {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.book-cta:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 1px 40px #e6c067;
+@media (hover: hover) {
+  .book-cta:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1px 40px #e6c067;
+  }
+  .install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196,155,58,0.35);
+  }
+}
+
+@media (hover: none) {
+  .book-cta:active {
+    transform: translateY(-4px);
+    box-shadow: 0 1px 40px #e6c067;
+  }
+  .install-btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196,155,58,0.35);
+  }
 }
 
 .book-text {
@@ -369,11 +386,6 @@ html {
   box-shadow: 0 0 0 rgba(196,155,58,0.4);
   animation: subtleGlow 4s ease-in-out infinite;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.install-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(196,155,58,0.35);
 }
 
 .install-sub {

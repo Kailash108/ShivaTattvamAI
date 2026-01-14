@@ -192,9 +192,6 @@ textarea {
   transition: background 0.4s ease;
 }
 
-.samhita-card:hover {
-  background: rgba(0, 0, 0, 0.45);
-}
 
 .samhita-header {
   padding: 24px 28px;
@@ -243,11 +240,7 @@ li {
   list-style: square;
 }
 
-li:hover {
-  background: #efe3c4;
-  color: #132b45;
-  transition: 0.3s ease-in;
-}
+
 
 /* ---------- ACTIVE STATE ---------- */
 .samhita-card.active .samhita-content {
@@ -411,10 +404,37 @@ h3 {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.read-icon:hover {
-  opacity: 1;
-  transform: scale(1.1);
+
+@media (hover: hover) {
+  .read-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  .samhita-card:hover {
+    background: rgba(0, 0, 0, 0.45);
+  }
+    li:hover {
+    background: #efe3c4;
+    color: #132b45;
+    transition: 0.3s ease-in;
+  }
 }
+
+@media (hover: none) {
+  .read-icon:active {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  .samhita-card:active {
+    background: rgba(0, 0, 0, 0.45);
+  }
+    li:active {
+    background: #efe3c4;
+    color: #132b45;
+    transition: 0.3s ease-in;
+  }
+}
+
 
 .msg.ai {
   position: relative;

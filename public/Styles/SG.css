@@ -110,10 +110,6 @@ body::-webkit-scrollbar-thumb {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.book-cta:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-}
 .book-text {
   display: flex;
   flex-direction: column;
@@ -176,10 +172,7 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-.chapter-card:hover {
-  background: #c49b3a;
-  transform: translateY(-10px) scale(1.015);
-}
+
 
 .chapter-card h3 {
   color: #e6c067;
@@ -204,10 +197,6 @@ body::-webkit-scrollbar-thumb {
   line-height: 1.7;
   opacity: 0.8;
   font-size: 13px;
-}
-
-.chapter-card:hover h3, .chapter-card:hover h4, .chapter-card:hover p {
-  color: #1e1a31;
 }
 
 .panel-modal {
@@ -343,10 +332,6 @@ body::-webkit-scrollbar-thumb {
   color:#e6c067
 }
 
-.speak-icon:hover {
-  opacity: 0.8;
-}
-
 .shloka-te-meaning, .shloka-en-meaning {
   line-height: 1.8;
   margin-top: 10px;
@@ -363,5 +348,39 @@ body::-webkit-scrollbar-thumb {
     border-radius: 8px;
     margin: 5px;
     cursor: pointer;
+  }
+}
+
+@media (hover: hover) {
+  .book-cta:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  }
+  .chapter-card:active {
+    background: #c49b3a;
+    transform: translateY(-10px) scale(1.015);
+  }
+  .chapter-card:hover h3, .chapter-card:hover h4, .chapter-card:hover p {
+    color: #1e1a31;
+  }
+  .speak-icon:hover {
+    opacity: 0.8;
+  }
+}
+
+@media (hover: none) {
+  .book-cta:active {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  }
+  .chapter-card:active {
+    background: #c49b3a;
+    transform: translateY(-10px) scale(1.015);
+  }
+  .chapter-card:active h3, .chapter-card:active h4, .chapter-card:active p {
+    color: #1e1a31;
+  }
+  .speak-icon:active {
+    opacity: 0.8;
   }
 }
