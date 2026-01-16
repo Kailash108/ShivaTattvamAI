@@ -25,52 +25,6 @@ app.get("/api/shivagita", (req, res) => {
   res.sendFile(path.join(__dirname, "Data", "ShivaGita.json"));
 });
 
-app.get("/api/vapid-public-key", (req, res) => {
-  res.json({ key: process.env.VAPID_PUBLIC_KEY });
-});
-app.post("/api/save-subscription", async (req, res) => {
-  try {
-    await req.body;
-    const { endpoint, keys } = req.body;
-
-    await db.collection(process.env.NOTIF_COLLECTION).insertOne({
-      endpoint,
-      keys,
-      createdAt: new Date()
-    });
-    res.json({ success: true });
-  } 
-  catch (e) {
-    console.error(e);
-    res.status(500).json({ success: false });
-  }
-});
-
-app.get("/admin/notify", (req, res) => {
-  res.sendFile(path.join(__dirname, "generateNotif.html"));
-});
-
-import { execFile } from "child_process";
-app.post("/api/admin/run-notif", (req, res) => {
-  const { title, body, secret } = req.body;
-
-  if (secret !== process.env.ADMIN_NOTIFY_SECRET) {
-    return res.status(401).json({ ok: false });
-  }
-
-  execFile("node", ["generateNotif.js", title, body],
-    (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ ok: false });
-      }
-      res.json({ ok: true });
-    }
-  );
-});
-
-
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
