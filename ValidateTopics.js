@@ -44,10 +44,9 @@ function normalize(s) {
     .trim();
 }
 
-// extract all headings from content.txt
 const headings = content
   .split(/\r?\n/)
-  .map(l => l.replace(/^\uFEFF/, "").trim()) // BOM-safe
+  .map(l => l.replace(/^\uFEFF/, "").trim())
   .filter(l => /^##\s*/.test(l))
   .map(l => l.replace(/^##\s*/, ""));
 

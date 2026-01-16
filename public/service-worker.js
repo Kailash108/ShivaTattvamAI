@@ -65,3 +65,46 @@ self.addEventListener("fetch", e => {
     caches.match(req).then(res => res || fetch(req))
   );
 });
+
+self.addEventListener("push", event => {
+  let data = {};
+
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = {};
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(
+      data.title || "ShivaTattvamAI",
+      {
+        body: data.body || "",
+        icon: "Logo_1.png",
+        badge: "Logo_1.png"
+      }
+    )
+  );
+});
+
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+
+  const targetUrl = "index.html";
+
+  event.waitUntil(
+    clients.matchAll({ type: "window", includeUncontrolled: true })
+      .then(clientList => {
+        for (const client of clientList) {
+          if (client.url.includes(targetUrl) && "focus" in client) {
+            return client.focus();
+          }
+        }
+        if (clients.openWindow) {
+          return clients.openWindow(targetUrl);
+        }
+      })
+  );
+});
+
+

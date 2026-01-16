@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Send Notification</title>
+</head>
+
+<body style="
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#0e0922;
+  font-family:system-ui, -apple-system, sans-serif;
+  color:#efe3c4;
+">
+
+  <div style="
+    width:100%;
+    max-width:420px;
+    padding:22px;
+    border-radius:16px;
+    background:#121826;
+    box-shadow:0 14px 42px rgba(0,0,0,.45);
+  ">
+
+    <h2 style="
+      text-align:center;
+      color:#e6c067;
+      margin-bottom:18px;
+      font-weight:600;
+    ">
+      🕉️ Send Notification
+    </h2>
+
+    <input id="title" placeholder="Notification title" style="
+        width:94%;
+        padding:12px;
+        margin-bottom:12px;
+        border-radius:10px;
+        border:1px solid rgba(230,192,103,.3);
+        background:#0e0922;
+        color:#efe3c4;
+        font-size:15px;
+      " />
+
+    <textarea id="body" rows="4" placeholder="Notification message" style="
+        width:94%;
+        padding:12px;
+        margin-bottom:14px;
+        border-radius:10px;
+        border:1px solid rgba(230,192,103,.3);
+        background:#0e0922;
+        color:#efe3c4;
+        font-size:15px;
+        resize:none;
+      "></textarea>
+
+    <input id="secret" type="password" placeholder="Admin secret" style="
+        width:94%;
+        padding:12px;
+        margin-bottom:18px;
+        border-radius:10px;
+        border:1px solid rgba(230,192,103,.3);
+        background:#0e0922;
+        color:#efe3c4;
+        font-size:15px;
+      " />
+
+    <button id="sendBtn" type="button" onclick="sendNotif()" style="
+        width:100%;
+        padding:14px;
+        border-radius:12px;
+        border:none;
+        background:#e6c067;
+        color:#0e0922;
+        font-size:16px;
+        font-weight:600;
+        cursor:pointer;
+      ">
+      Send Notification
+    </button>
+
+    <p id="status" style="
+      margin-top:14px;
+      text-align:center;
+      font-size:14px;
+      min-height:18px;
+    "></p>
+
+  </div>
+
+  <script>
+    async function sendNotif() {
+      const title = document.getElementById("title").value.trim();
+      const body = document.getElementById("body").value.trim();
+      const secret = document.getElementById("secret").value.trim();
+      const status = document.getElementById("status");
+      const btn = document.getElementById("sendBtn");
+
+      if (!title || !body || !secret) {
+        status.textContent = "⚠️ Please fill all fields";
+        status.style.color = "#f5b7b1";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+      status.textContent = "";
+
+      try {
+        const res = await fetch("/api/admin/run-notif", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, body, secret })
+        });
+
+        if (!res.ok) throw new Error();
+
+        status.textContent = "✅ Notification sent successfully 🙏";
+        status.style.color = "#9fe2bf";
+
+      } catch {
+        status.textContent = "❌ Failed to send notification";
+        status.style.color = "#f5b7b1";
+      }
+
+      btn.disabled = false;
+      btn.textContent = "Send Notification";
+    }
+  </script>
+
+</body>
+
+</html>

@@ -309,7 +309,7 @@ html {
     transform: translateY(-4px);
     box-shadow: 0 1px 40px #e6c067;
   }
-  .install-btn:hover {
+  .install-btn:hover, .enableNotificationsBtn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(196,155,58,0.35);
   }
@@ -320,7 +320,7 @@ html {
     transform: translateY(-4px);
     box-shadow: 0 1px 40px #e6c067;
   }
-  .install-btn:active {
+  .install-btn:active, .enableNotificationsBtn:active {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(196,155,58,0.35);
   }
@@ -372,7 +372,7 @@ html {
   padding: 40px;
 }
 
-.install-btn {
+.install-btn, .enableNotificationsBtn {
   margin: 10px;
   padding: 10px;
   font-family: "Noto Serif", serif;
